@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom';
-import Popcornpix from '../assets/popcornpixLogo.png';
+import Popcornpix from '../assets/image.png';
 import SearchBox from './SearchBox';
 import UserProfile from './UserProfile';
 
 export default function Navbar() {
 	return (
 		<>
-			<header className="fixed top-0 left-0 z-50 w-full overflow-hidden bg-blue-600 text-white">
-				<nav className="lg:container lg:mx-auto flex items-center justify-between px-2 py-3 shadow-sm z-10">
+			<header className="fixed top-0 left-0 z-50 w-full overflow-hidden bg-bg1">
+				<nav className="2xl:container 2xl:mx-auto flex items-center justify-between px-2 py-3 md:px-6 shadow-sm z-10">
 					<div>
-						<Link to={'/'}>
+						<Link to={'/'} className="sm:flex sm:gap-2 sm:items-center">
 							<img className="w-[36px]" src={Popcornpix} alt="popcorn" title="popcornpix" />
+							<h3 className="hidden sm:block sm:font-bold">Popcornpix</h3>
 						</Link>
 					</div>
 					{/* Search content */}
@@ -18,12 +19,11 @@ export default function Navbar() {
 						<SearchBox />
 					</div>
 					{/* User profile  */}
-					<div className="cursor-pointer">
+					<div className="cursor-pointer text-p7">
 						<UserProfile />
 					</div>
 				</nav>
 			</header>
-			<div>This is bottom</div>
 		</>
 	);
 }

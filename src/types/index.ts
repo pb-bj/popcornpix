@@ -4,4 +4,5 @@ export type MenuType = {
 	id: string;
 	title: string;
 	icon: LucideIcon;
+	route: string;
 };

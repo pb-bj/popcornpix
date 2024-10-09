@@ -6,15 +6,18 @@ export const menus: MenuType[] = [
 		id: 'home',
 		title: 'Board',
 		icon: House,
+		route: '/',
 	},
 	{
 		id: 'discover',
 		title: 'Discover',
 		icon: Compass,
+		route: '/discover',
 	},
 	{
 		id: 'watchlist',
 		title: 'Watchlist',
 		icon: LibraryBig,
+		route: '/watchlist',
 	},
 ];
