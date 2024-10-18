@@ -1,6 +1,7 @@
 import { ChevronRight } from 'lucide-react';
 import { ReactNode } from 'react';
-import { Movie, Series } from '../types';
+import { Movie } from '../types/Movie';
+import { Series } from '../types/Series';
 
 type ContentProps<T extends Movie | Series> = {
 	label: string;
@@ -21,7 +22,7 @@ const Content = <T extends Movie | Series>({ label, items, render }: ContentProp
 				</div>
 			</div>
 			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
-				{items?.length > 0 ? (
+				{items && items?.length > 0 ? (
 					items?.slice(0, 6).map((item) => (
 						<li key={item.id} className="flex flex-col items-center">
 							{render(item)}

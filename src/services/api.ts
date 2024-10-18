@@ -1,10 +1,10 @@
-import { MovieResponse, SeriesResponse } from '../types';
-import { TrendingMovie, TrendingSeries } from '../types/Trending';
+import { MovieResponse, SeriesResponse, TrendingMovieResponse, TrendingSeriesResponse } from '../types/Response';
 import { instance } from './instance';
 
-type DataResponse = MovieResponse | SeriesResponse;
-type TrendingResponse = TrendingMovie | TrendingSeries;
-type EndpointProps = 'movie' | 'series';
+export type DataResponse = MovieResponse | SeriesResponse;
+export type TrendingResponse = TrendingMovieResponse | TrendingSeriesResponse;
+
+type EndpointProps = 'movie' | 'tv';
 type TimeWindowType = 'day' | 'week';
 
 // POPULAR MOVIE | TV SERIES
