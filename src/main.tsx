@@ -26,7 +26,7 @@ const router = createBrowserRouter([
 				element: <DiscoverPage />,
 			},
 			{
-				path: '/:type/:id',
+				path: '/detail/:type/:id',
 				element: <DetailPage />,
 			},
 			{
