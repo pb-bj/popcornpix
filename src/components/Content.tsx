@@ -1,15 +1,17 @@
 import { ChevronRight } from 'lucide-react';
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { Movie } from '../types/Movie';
 import { Series } from '../types/Series';
 
 type ContentProps<T extends Movie | Series> = {
 	label: string;
+	type: 'movie' | 'tv';
 	items: T[];
 	render: (items: T) => ReactNode;
 };
 
-const Content = <T extends Movie | Series>({ label, items, render }: ContentProps<T>) => {
+const Content = <T extends Movie | Series>({ label, type, items, render }: ContentProps<T>) => {
 	return (
 		<div className="mb-8">
 			<div className="flex justify-between items-baseline pb-4">
@@ -24,9 +26,11 @@ const Content = <T extends Movie | Series>({ label, items, render }: ContentProp
 			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
 				{items && items?.length > 0 ? (
 					items?.slice(0, 6).map((item) => (
-						<li key={item.id} className="flex flex-col items-center">
-							{render(item)}
-						</li>
+						<Link to={`/detail/${type}/${item.id}`}>
+							<li key={item.id} className="flex flex-col items-center">
+								{render(item)}
+							</li>
+						</Link>
 					))
 				) : (
 					<p>No movies found</p>

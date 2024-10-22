@@ -13,6 +13,7 @@ const Home = () => {
 		<section className="px-4 py-6 w-full">
 			<Content<TrendingMovie>
 				label="Trending - Movie"
+				type="movie"
 				items={(trendingMovies?.results ?? []) as TrendingMovie[]}
 				render={(item) => (
 					<>
@@ -29,6 +30,7 @@ const Home = () => {
 			/>
 			<Content<TrendingSeries>
 				label="Trending - Series"
+				type="tv"
 				items={(trendingSeries?.results ?? []) as TrendingSeries[]}
 				render={(item) => (
 					<>
@@ -45,6 +47,7 @@ const Home = () => {
 			/>
 			<Content<Movie>
 				label="Popular - Movie"
+				type="tv"
 				items={(popularMovies?.results || []) as Movie[]}
 				render={(item) => (
 					<>
@@ -62,6 +65,7 @@ const Home = () => {
 
 			<Content<Series>
 				label="Popular - Series"
+				type="movie"
 				items={(popularSeries?.results ?? []) as Series[]}
 				render={(item) => (
 					<>
