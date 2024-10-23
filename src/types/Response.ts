@@ -1,5 +1,5 @@
-import { Movie } from './Movie';
-import { Series } from './Series';
+import { Movie, MovieDetails } from './Movie';
+import { Series, SeriesDetails } from './Series';
 import { TrendingMovie, TrendingSeries } from './Trending';
 
 export type MovieResponse = {
@@ -25,3 +25,6 @@ export type TrendingSeriesResponse = {
 	page?: number;
 	results: TrendingSeries[];
 };
+
+// Details
+export type DetailResponse = MovieDetails | SeriesDetails;

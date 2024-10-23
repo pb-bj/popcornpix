@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getPopularData, getTrendingData } from '../services/api';
+import { EndpointProps, getDetailData, getPopularData, getTrendingData } from '../services/api';
 
 // POPULAR
 export const usePopularMovies = (page: number) => {
@@ -30,3 +30,18 @@ export const useTrendingSeries = (page: number) => {
 		queryFn: () => getTrendingData('tv', 'week', page),
 	});
 };
+
+// DETAIL
+export const useMediaDetails = (type: EndpointProps, id: number) => {
+	return useQuery({
+		queryKey: ['media-details', type, id],
+		queryFn: () => getDetailData(type, id),
+	});
+};
+
+// export const getSeriesDetails = (id: number) => {
+// 	return useQuery({
+// 		queryKey: ['series-details', id],
+// 		queryFn: () => getDetailData('tv', id),
+// 	});
+// };
