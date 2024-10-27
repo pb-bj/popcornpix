@@ -47,7 +47,7 @@ const Home = () => {
 			/>
 			<Content<Movie>
 				label="Popular - Movie"
-				type="tv"
+				type="movie"
 				items={(popularMovies?.results || []) as Movie[]}
 				render={(item) => (
 					<>
@@ -65,7 +65,7 @@ const Home = () => {
 
 			<Content<Series>
 				label="Popular - Series"
-				type="movie"
+				type="tv"
 				items={(popularSeries?.results ?? []) as Series[]}
 				render={(item) => (
 					<>
