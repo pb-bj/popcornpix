@@ -38,10 +38,3 @@ export const useMediaDetails = (type: EndpointProps, id: number) => {
 		queryFn: () => getDetailData(type, id),
 	});
 };
-
-// export const getSeriesDetails = (id: number) => {
-// 	return useQuery({
-// 		queryKey: ['series-details', id],
-// 		queryFn: () => getDetailData('tv', id),
-// 	});
-// };
