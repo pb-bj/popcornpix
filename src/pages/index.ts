@@ -1,4 +1,4 @@
-import DetailPage from './DetailPage';
+import DetailPage from './Details/DetailPage';
 import DiscoverPage from './DiscoverPage';
 import Home from './Home';
 import Watchlist from './Watchlist';

@@ -12,7 +12,7 @@ export default function App() {
 	return (
 		<>
 			{!hiddenItemsDetailPage && <Navbar />}
-			<main className={`flex w-full ${hiddenItemsDetailPage ? '' : 'pt-[40px]'} bg-bg1 text-p3 min-h-screen`}>
+			<main className={`flex w-full ${hiddenItemsDetailPage ? '' : 'pt-[40px]'} bg-bg1 text-p3`}>
 				{/* larger screen */}
 				{!hiddenItemsDetailPage && (
 					<div className="hidden sm:mt-5 sm:h-full sm:flex sm:flex-col sm:fixed sm:items-center sm:top-10 sm:bottom-0 bg-bg1 z-10">
@@ -33,7 +33,7 @@ export default function App() {
 						</ul>
 					</div>
 				)}
-				<div className={`${hiddenItemsDetailPage ? '' : 'overflow-auto px-3 mt-9 sm:px-11 sm:ml-10 sm:mt-7 '}`}>
+				<div className={`overflow-auto ${hiddenItemsDetailPage ? 'w-full h-screen bg-bg1' : 'px-3 mt-9 sm:px-11 sm:ml-10 sm:mt-7 '} `}>
 					<Outlet />
 				</div>
 			</main>
