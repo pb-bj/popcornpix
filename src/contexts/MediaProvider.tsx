@@ -27,8 +27,6 @@ const MediaProvider = ({ children }: MediaContextProps) => {
 	const isLoading = isPopularMovieLoading || isPopularSeriesLoading || istrendingMovieLoading || istrendingSeriesLoading;
 	const error = popularMovieError || popularSeriesError || trendingMovieError || trendingSeriesError;
 
-	console.log('pop movies', popularMovies);
-	console.log('pop series', popularSeries);
 	return (
 		<MediaContext.Provider value={{ popularMovies, popularSeries, trendingMovies, trendingSeries, isLoading, error }}>{children}</MediaContext.Provider>
 	);

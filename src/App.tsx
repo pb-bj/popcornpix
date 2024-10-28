@@ -39,7 +39,7 @@ export default function App() {
 			</main>
 			{/* bottom navbar */}
 			{!hiddenItemsDetailPage && (
-				<nav className="fixed bottom-0 left-0 z-50 w-full bg-bg1 px-6 py-3 sm:hidden">
+				<nav className="fixed bottom-0 left-0 z-50 w-full h-[75px] bg-bg1 px-6 shadow-lg sm:hidden">
 					<ul className="flex items-baseline space-y-2 justify-around">
 						{menus.map((menu) => (
 							<li key={menu.id} className="" onClick={() => setActiveLink(menu.id)}>
