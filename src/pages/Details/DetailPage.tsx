@@ -1,4 +1,5 @@
 import { Clapperboard, FolderClock } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, GenreList } from '../../components';
 import { useMediaDetails } from '../../hooks/useFetchMedia';
@@ -7,6 +8,7 @@ import ImdbImage from './../../assets/imdb.png';
 import { isMovieDetails, isSeriesDetails } from './../../utils/typeGuards';
 import DetailMenu from './DetailMenu';
 import DetailVideoContent from './DetailVideoContent';
+import Trailer from './Trailer';
 
 type DetailsParams = {
 	type: EndpointProps;
@@ -18,6 +20,7 @@ export default function DetailPage() {
 	const mediaId = parseInt(id);
 	const mediaType = type === 'movie' ? 'movie' : 'tv';
 	const { data, isLoading, error } = useMediaDetails(mediaType, mediaId);
+	const [showTrailer, setShowTrailer] = useState(false);
 
 	if (isLoading) return <p>Loading...</p>;
 	if (error) return <p>Error</p>;
@@ -27,6 +30,7 @@ export default function DetailPage() {
 
 	return (
 		<>
+			{showTrailer && <Trailer trailerId={mediaId} trailerType={mediaType} onClose={() => setShowTrailer(false)} />}
 			<div
 				className="absolute top-0 left-0 w-full h-screen bg-cover bg-center z-0 opacity-45"
 				style={{ backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.15)), url(${backgroundImage})` }}
@@ -131,7 +135,7 @@ export default function DetailPage() {
 					{/* buttons */}
 					<div className="flex items-center justify-center space-x-3 mt-8 mb-3 md:items-start md:justify-start md:mx-0">
 						<Button label="Add to Library" onClick={() => alert('clicked')} Icon={FolderClock} />
-						<Button label="Trailer" onClick={() => alert('clicked')} Icon={Clapperboard} />
+						<Button label="Trailer" onClick={() => setShowTrailer(!showTrailer)} Icon={Clapperboard} />
 					</div>
 				</div>
 				<DetailVideoContent />

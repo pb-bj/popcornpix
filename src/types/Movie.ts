@@ -32,3 +32,16 @@ export type MovieDetails = {
 	vote_average: number;
 	vote_count: number;
 };
+
+export type MovieVideo = {
+	iso_639_1: string;
+	iso_3166_1: string;
+	name: string;
+	key: string;
+	site: string;
+	size: number;
+	type: string;
+	official: boolean;
+	published_at: string;
+	id: string;
+};

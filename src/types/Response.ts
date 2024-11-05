@@ -1,3 +1,4 @@
+import { BaseVideoType } from './CommonMedia';
 import { Movie, MovieDetails } from './Movie';
 import { Series, SeriesDetails } from './Series';
 import { TrendingMovie, TrendingSeries } from './Trending';
@@ -28,3 +29,9 @@ export type TrendingSeriesResponse = {
 
 // Details
 export type DetailResponse = MovieDetails | SeriesDetails;
+
+// Videos
+export type VideoResponse = {
+	id: number;
+	results: BaseVideoType[];
+};
