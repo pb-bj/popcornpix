@@ -1,36 +1,3 @@
-// import { useVideos } from '../../hooks/useFetchMedia';
-// import { EndpointProps } from '../../services/api';
-
-// type TrailerProps = {
-// 	trailerId: number;
-// 	trailerType: EndpointProps;
-// };
-
-// const Trailer = ({ trailerType, trailerId }: TrailerProps) => {
-// 	const { data } = useVideos(trailerType, trailerId);
-
-// 	const videoType = data?.id === trailerId ? data?.results.filter((video) => video.type === 'Trailer') : [];
-// 	const videoKey = videoType.map((video) => video.key);
-// 	return (
-// 		<div className="absolute inset-0 flex items-center justify-center z-[50] ">
-// 			{videoKey.length > 0 && (
-// 				<iframe
-// 					className="w-[950px] h-[500px]"
-// 					// width="560"
-// 					// height="315"
-// 					src={`https://www.youtube.com/embed/${videoKey[0]}`}
-// 					// frameBorder="0"
-// 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-// 					allowFullScreen
-// 					title="Embedded youtube"
-// 				/>
-// 			)}
-// 		</div>
-// 	);
-// };
-
-// export default Trailer;
-
 import { X } from 'lucide-react';
 import { useVideos } from '../../hooks/useFetchMedia';
 import { EndpointProps } from '../../services/api';
