@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createContext, ReactNode } from 'react';
 import { getPopularData } from '../services/api';
-import { MovieResponse, SeriesResponse } from '../types';
+import { MovieResponse, SeriesResponse } from '../types/Response';
 
 type DataContextProps = {
 	children: ReactNode;
@@ -32,7 +32,7 @@ const DataProvider = ({ children }: DataContextProps) => {
 		error: seriesError,
 	} = useQuery<SeriesResponse>({
 		queryKey: ['popular-series', 'series', 1],
-		queryFn: () => getPopularData('series', 1) as Promise<SeriesResponse>,
+		queryFn: () => getPopularData('tv', 1) as Promise<SeriesResponse>,
 	});
 
 	// Consolidate loading and error states
