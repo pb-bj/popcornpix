@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSeasonDetails } from '../../hooks/useFetchMedia';
 import { SeriesDetails } from '../../types/Series';
 import DetailSearchContent from './DetailSearchContent';
+import Episodes from './Episodes';
 
 type DetailContentProp = {
 	seriesData: SeriesDetails;
@@ -14,15 +15,21 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 	const [selectedSeason, setSelectedSeason] = useState(1);
 	const { data } = useSeasonDetails(seasonID, selectedSeason);
 
-	console.log('seson data:', data);
 	let seasonArray = [];
 	for (let i = 1; i <= totalNumberOfSeasons; i++) {
 		seasonArray.push(i);
 	}
 
-	// console.log(seasonArray);
 	const handleSelectedSeason = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectedSeason(Number(e.target.value));
+	};
+
+	const handlePrevButton = () => {
+		setSelectedSeason((prev) => (prev > 1 ? prev - 1 : 1));
+	};
+
+	const handleNextButton = () => {
+		setSelectedSeason((prev) => (prev < totalNumberOfSeasons ? prev + 1 : totalNumberOfSeasons));
 	};
 
 	return (
@@ -32,7 +39,7 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 				<div className="flex justify-between items-center space-x-4 mt-4">
 					<div className="flex justify-center items-center rounded-2xl w-[85px] cursor-pointer hover:bg-transparent/10 px-2 py-1.5 text-center">
 						<ChevronLeft width={20} />
-						<p>Prev</p>
+						<button onClick={handlePrevButton}>Prev</button>
 					</div>
 					{/* select option */}
 					<div>
@@ -45,16 +52,14 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 						</select>
 					</div>
 					<div className="flex justify-center items-center rounded-2xl w-[85px] cursor-pointer hover:bg-transparent/20 px-4 py-1.5 text-center">
-						<p>Next</p> <ChevronRight width={20} />
+						<button onClick={handleNextButton}>Next</button> <ChevronRight width={20} />
 					</div>
 				</div>
 				{/* Search Content Section*/}
 				<DetailSearchContent />
-				{/* overflown-content */}
+				{/* Episode content */}
 				<div className="overflow-y-auto h-[300px] border">
-					{data?.episodes.map((episode) => (
-						<div key={episode.id}>{episode.name}</div>
-					))}
+					<Episodes details={data} />
 				</div>
 			</div>
 		</>

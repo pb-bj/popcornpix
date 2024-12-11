@@ -1,4 +1,5 @@
 import { DetailResponse, MovieResponse, SeriesResponse, TrendingMovieResponse, TrendingSeriesResponse, VideoResponse } from '../types/Response';
+import { SeriesSeasonDetails } from '../types/Series';
 import { instance } from './instance';
 
 export type DataResponse = MovieResponse | SeriesResponse;
@@ -28,5 +29,11 @@ export const getDetailData = async (type: EndpointProps, id: number): Promise<De
 // VIDEOS
 export const getVideos = async (type: EndpointProps, id: number): Promise<VideoResponse> => {
 	const { data } = await instance.get<VideoResponse>(`/${type}/${id}/videos`);
+	return data;
+};
+
+// SEASON DETAILS
+export const getSeasonDetails = async (series_id: number, series_number: number): Promise<SeriesSeasonDetails> => {
+	const { data } = await instance.get<SeriesSeasonDetails>(`/tv/${series_id}/season/${series_number}`);
 	return data;
 };
