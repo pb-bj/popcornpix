@@ -10,7 +10,7 @@ export type Series = BaseMedia & {
 
 //Details
 
-type Episode = {
+export type Episode = {
 	id: number;
 	name: string;
 	overview: string;

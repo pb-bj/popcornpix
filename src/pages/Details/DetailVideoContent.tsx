@@ -13,7 +13,9 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 	const seasonID = seriesData.id;
 	const totalNumberOfSeasons = seriesData.number_of_seasons;
 	const [selectedSeason, setSelectedSeason] = useState(1);
-	const { data } = useSeasonDetails(seasonID, selectedSeason);
+	const { data, isLoading } = useSeasonDetails(seasonID, selectedSeason);
+
+	if (isLoading) return <p>Loading...</p>;
 
 	let seasonArray = [];
 	for (let i = 1; i <= totalNumberOfSeasons; i++) {
@@ -34,7 +36,7 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 
 	return (
 		<>
-			<div className="w-full px-3 py-3 text-[13.5px] md:w-4/12 rounded-xl md:rounded-none md:rounded-l-xl shadow-xl backdrop-blur-3xl bg-black/30 h-[250px] sm:h-[400px] md:h-[605px]">
+			<div className="w-full px-3 py-3 text-[13.5px] md:w-4/12 rounded-xl md:rounded-none md:rounded-l-xl shadow-xl backdrop-blur-3xl bg-black/30 h-[455px] sm:h-[400px] md:h-[605px]">
 				{/* top menu */}
 				<div className="flex justify-between items-center space-x-4 mt-4">
 					<div className="flex justify-center items-center rounded-2xl w-[85px] cursor-pointer hover:bg-transparent/10 px-2 py-1.5 text-center">
@@ -58,7 +60,7 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 				{/* Search Content Section*/}
 				<DetailSearchContent />
 				{/* Episode content */}
-				<div className="overflow-y-auto h-[300px] border">
+				<div className="overflow-y-auto h-[428px] px-5">
 					<Episodes details={data} />
 				</div>
 			</div>
