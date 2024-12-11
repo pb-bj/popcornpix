@@ -138,7 +138,7 @@ export default function DetailPage() {
 						<Button label="Trailer" onClick={() => setShowTrailer(!showTrailer)} Icon={Clapperboard} />
 					</div>
 				</div>
-				<DetailVideoContent />
+				{isSeriesDetails(data) && <DetailVideoContent seriesData={data} />}
 			</div>
 		</>
 	);

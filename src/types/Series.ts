@@ -75,3 +75,13 @@ export type SeriesDetails = {
 	vote_average: number;
 	vote_count: number;
 };
+
+// for Series Seasons Details
+type SeasonsInfo = Omit<Season, 'air_date' | 'episode_count'>;
+
+export type SeriesSeasonDetails = {
+	id: string;
+	air_date: string;
+	episodes: Episode[];
+	seasons: SeasonsInfo;
+};
