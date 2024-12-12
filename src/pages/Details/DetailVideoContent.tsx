@@ -13,6 +13,7 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 	const seasonID = seriesData.id;
 	const totalNumberOfSeasons = seriesData.number_of_seasons;
 	const [selectedSeason, setSelectedSeason] = useState(1);
+	const [searchEpisodes, setSearchEpisodes] = useState('');
 	const { data, isLoading } = useSeasonDetails(seasonID, selectedSeason);
 
 	let seasonArray = [];
@@ -31,6 +32,13 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 	const handleNextButton = () => {
 		setSelectedSeason((prev) => (prev < totalNumberOfSeasons ? prev + 1 : totalNumberOfSeasons));
 	};
+
+	const filteredSearchContent = data?.episodes.filter((episode) => {
+		if (episode.name == '' || episode.name.toLowerCase().includes(searchEpisodes.toLowerCase())) {
+			return episode;
+		}
+		return null;
+	});
 
 	return (
 		<>
@@ -56,10 +64,10 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 					</div>
 				</div>
 				{/* Search Content Section*/}
-				<DetailSearchContent />
+				<DetailSearchContent setSearchEpisodes={setSearchEpisodes} />
 				{/* Episode content */}
 				<div className="overflow-y-auto h-[250px] sm:[300px] md:h-[428px] px-5">
-					<Episodes details={data} loading={isLoading} />
+					<Episodes details={filteredSearchContent} loading={isLoading} />
 				</div>
 			</div>
 		</>

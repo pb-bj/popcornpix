@@ -1,17 +1,18 @@
 import unavailableImg from '../../assets/unavailableImg.png';
-import { SeriesSeasonDetails } from '../../types/Series';
+import { Episode } from '../../types/Series';
 import { isUpcoming } from '../../utils';
 
 type EpisodesProps = {
-	details: SeriesSeasonDetails | undefined;
+	details: Episode[] | undefined;
 	loading: boolean;
 };
 
 const Episodes = ({ details, loading }: EpisodesProps) => {
 	if (loading) return <p>Loading...</p>;
+
 	return (
 		<>
-			{details?.episodes.map((episode) => (
+			{details?.map((episode) => (
 				<div key={episode.id} className="flex gap-2 mb-3 py-1.5 rounded-md cursor-pointer hover:bg-black/20">
 					<img
 						className="mb-2"
