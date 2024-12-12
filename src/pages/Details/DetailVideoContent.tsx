@@ -15,8 +15,6 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 	const [selectedSeason, setSelectedSeason] = useState(1);
 	const { data, isLoading } = useSeasonDetails(seasonID, selectedSeason);
 
-	// if (isLoading) return <p>Loading...</p>;
-
 	let seasonArray = [];
 	for (let i = 1; i <= totalNumberOfSeasons; i++) {
 		seasonArray.push(i);
@@ -60,7 +58,7 @@ const DetailVideoContent = ({ seriesData }: DetailContentProp) => {
 				{/* Search Content Section*/}
 				<DetailSearchContent />
 				{/* Episode content */}
-				<div className="overflow-y-auto h-[428px] px-5">
+				<div className="overflow-y-auto h-[250px] sm:[300px] md:h-[428px] px-5">
 					<Episodes details={data} loading={isLoading} />
 				</div>
 			</div>
