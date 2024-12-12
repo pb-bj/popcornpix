@@ -26,10 +26,8 @@ const Content = <T extends Movie | Series>({ label, type, items, render }: Conte
 			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
 				{items && items?.length > 0 ? (
 					items?.slice(0, 6).map((item) => (
-						<Link to={`/detail/${type}/${item.id}`}>
-							<li key={item.id} className="flex flex-col items-center">
-								{render(item)}
-							</li>
+						<Link to={`/detail/${type}/${item.id}`} key={item.id}>
+							<li className="flex flex-col items-center">{render(item)}</li>
 						</Link>
 					))
 				) : (

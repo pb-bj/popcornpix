@@ -120,7 +120,7 @@ export default function DetailPage() {
 								<div className="uppercase text-xs mt-4 text-p4 font-semibold">Networks </div>
 								<ul className="flex items-baseline space-x-4 text-sm py-2.5">
 									{data?.networks.slice(0, 2)?.map((network) => (
-										<img src={`${import.meta.env.VITE_APP_TMDB_IMAGE_ORIGINAL_URL}/${network?.logo_path}`} width={80} />
+										<img key={network.id} src={`${import.meta.env.VITE_APP_TMDB_IMAGE_ORIGINAL_URL}/${network?.logo_path}`} width={80} />
 									))}
 								</ul>
 							</div>
