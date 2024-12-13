@@ -39,13 +39,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
-			{/* <MovieProvider>
-				<SeriesProvider> */}
 			<MediaProvider>
 				<RouterProvider router={router} />
 			</MediaProvider>
-			{/* </SeriesProvider>
-			</MovieProvider> */}
 		</QueryClientProvider>
 	</StrictMode>
 );

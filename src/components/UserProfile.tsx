@@ -1,9 +1,5 @@
-import { User } from 'lucide-react';
+const UserProfile = () => {
+	return <div>UserProfile</div>;
+};
 
-export default function UserProfile() {
-	return (
-		<>
-			<User className="w-8" />
-		</>
-	);
-}
+export default UserProfile;

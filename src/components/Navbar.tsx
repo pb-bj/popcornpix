@@ -1,7 +1,7 @@
+import { User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Popcornpix from '../assets/image.png';
 import SearchBox from './SearchBox';
-import UserProfile from './UserProfile';
 
 export default function Navbar() {
 	return (
@@ -20,7 +20,7 @@ export default function Navbar() {
 					</div>
 					{/* User profile  */}
 					<div className="cursor-pointer text-p7">
-						<UserProfile />
+						<User className="w-8" />
 					</div>
 				</nav>
 			</header>

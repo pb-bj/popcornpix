@@ -12,7 +12,7 @@ export default function App() {
 	return (
 		<>
 			{!hiddenItemsDetailPage && <Navbar />}
-			<main className={`flex w-full ${hiddenItemsDetailPage ? '' : 'pt-[40px]'} bg-bg1 text-p3`}>
+			<main className={`flex flex-col w-full h-screen ${hiddenItemsDetailPage ? '' : 'pt-[40px]'} bg-bg1 text-p3`}>
 				{/* larger screen */}
 				{!hiddenItemsDetailPage && (
 					<div className="hidden sm:mt-5 sm:h-full sm:flex sm:flex-col sm:fixed sm:items-center sm:top-10 sm:bottom-0 bg-bg1 z-10">
@@ -42,7 +42,7 @@ export default function App() {
 				<nav className="fixed bottom-0 left-0 z-50 w-full h-[75px] bg-bg1 px-6 shadow-lg sm:hidden">
 					<ul className="flex items-baseline space-y-2 justify-around">
 						{menus.map((menu) => (
-							<li key={menu.id} className="" onClick={() => setActiveLink(menu.id)}>
+							<li key={menu.id} onClick={() => setActiveLink(menu.id)}>
 								<Link
 									to={menu.route}
 									className={`flex flex-col items-center text-center px-3.5 py-2 cursor-pointer ${activeLink === menu.id ? 'text-white' : 'text-p7'}`}
