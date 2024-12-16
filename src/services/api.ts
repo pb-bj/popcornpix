@@ -37,3 +37,9 @@ export const getSeasonDetails = async (series_id: number, series_number: number)
 	const { data } = await instance.get<SeriesSeasonDetails>(`/tv/${series_id}/season/${series_number}`);
 	return data;
 };
+
+// MULTI-SEARCH
+export const getSearchResults = async (searchedQueries: string): Promise<DetailResponse> => {
+	const { data } = await instance.get<DetailResponse>(`/search/multi?query=${searchedQueries}`);
+	return data;
+};

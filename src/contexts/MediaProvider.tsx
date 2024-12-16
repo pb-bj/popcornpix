@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode } from 'react';
 import { usePopularMovies, usePopularSeries, useTrendingMovie, useTrendingSeries } from '../hooks/useFetchMedia';
 import { DataResponse, TrendingResponse } from '../services/api';
 
@@ -33,12 +33,3 @@ const MediaProvider = ({ children }: MediaContextProps) => {
 };
 
 export default MediaProvider;
-
-export const useMediaData = () => {
-	const context = useContext(MediaContext);
-
-	if (!context) {
-		throw new Error('useMediaData should be within context');
-	}
-	return context;
-};

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { EndpointProps, getDetailData, getPopularData, getSeasonDetails, getTrendingData, getVideos } from '../services/api';
+import { EndpointProps, getDetailData, getPopularData, getSearchResults, getSeasonDetails, getTrendingData, getVideos } from '../services/api';
 
 // POPULAR
 export const usePopularMovies = (page: number) => {
@@ -52,5 +52,13 @@ export const useSeasonDetails = (season_id: number, season_number: number) => {
 	return useQuery({
 		queryKey: ['season-details', season_id, season_number],
 		queryFn: () => getSeasonDetails(season_id, season_number),
+	});
+};
+
+// SEARCHED QUERIES
+export const useQueryParams = (searchedQueries: string) => {
+	return useQuery({
+		queryKey: ['searched', searchedQueries],
+		queryFn: () => getSearchResults(searchedQueries),
 	});
 };

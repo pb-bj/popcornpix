@@ -1,4 +1,6 @@
-import { useMediaData } from '../contexts/MediaProvider';
+import { useQueryParams } from '../hooks/useFetchMedia';
+import useMediaData from '../hooks/useMediaData';
+import useSearchDetail from '../hooks/useSearchDetail';
 import { Movie } from '../types/Movie';
 import { Series } from '../types/Series';
 import { TrendingMovie, TrendingSeries } from '../types/Trending';
@@ -6,11 +8,17 @@ import { Content } from './../components/index';
 
 const Home = () => {
 	const { popularMovies, popularSeries, trendingMovies, trendingSeries, isLoading, error } = useMediaData();
+	const { searchDetail } = useSearchDetail();
+	const { data } = useQueryParams(searchDetail);
+
 	if (isLoading) return <p>Loading....</p>;
 	if (error) return <p>Error </p>;
 
+	console.log('home', data);
+
 	return (
 		<section className="px-4 py-6 w-full">
+			{/* use of generic contenxt component (Content) */}
 			<Content<TrendingMovie>
 				label="Trending - Movie"
 				type="movie"
