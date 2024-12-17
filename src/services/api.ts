@@ -1,4 +1,12 @@
-import { DetailResponse, MovieResponse, SeriesResponse, TrendingMovieResponse, TrendingSeriesResponse, VideoResponse } from '../types/Response';
+import {
+	DetailResponse,
+	MovieResponse,
+	MultiSearchResponse,
+	SeriesResponse,
+	TrendingMovieResponse,
+	TrendingSeriesResponse,
+	VideoResponse,
+} from '../types/Response';
 import { SeriesSeasonDetails } from '../types/Series';
 import { instance } from './instance';
 
@@ -39,7 +47,7 @@ export const getSeasonDetails = async (series_id: number, series_number: number)
 };
 
 // MULTI-SEARCH
-export const getSearchResults = async (searchedQueries: string): Promise<DetailResponse> => {
-	const { data } = await instance.get<DetailResponse>(`/search/multi?query=${searchedQueries}`);
+export const getSearchResults = async (searchedQueries: string): Promise<MultiSearchResponse> => {
+	const { data } = await instance.get<MultiSearchResponse>(`/search/multi?query=${searchedQueries}`);
 	return data;
 };

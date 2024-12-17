@@ -35,3 +35,11 @@ export type VideoResponse = {
 	id: number;
 	results: BaseVideoType[];
 };
+
+// multi search response
+export type MultiSearchResponse = {
+	page: number;
+	results: Movie[] | Series[];
+	total_pages: number;
+	total_results: number;
+};
