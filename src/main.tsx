@@ -6,7 +6,7 @@ import App from './App.tsx';
 import MediaProvider from './contexts/MediaProvider.tsx';
 import SearchDataProvider from './contexts/SearchDataProvider.tsx';
 import './index.css';
-import { DetailPage, DiscoverPage, Home, Watchlist } from './pages';
+import { DetailPage, DiscoverPage, Home, Search, Watchlist } from './pages';
 import { ErrorPage } from './routes';
 
 const queryClient = new QueryClient();
@@ -32,6 +32,10 @@ const router = createBrowserRouter([
 			{
 				path: '/watchlist',
 				element: <Watchlist />,
+			},
+			{
+				path: '/search',
+				element: <Search />,
 			},
 		],
 	},

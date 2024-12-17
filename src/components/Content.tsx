@@ -6,12 +6,14 @@ import { Series } from '../types/Series';
 
 type ContentProps<T extends Movie | Series> = {
 	label: string;
-	type: 'movie' | 'tv';
 	items: T[];
 	render: (items: T) => ReactNode;
+	maxItems?: number; // for maximun items to be display
 };
 
-const Content = <T extends Movie | Series>({ label, type, items, render }: ContentProps<T>) => {
+const Content = <T extends Movie | Series>({ label, items, render, maxItems }: ContentProps<T>) => {
+	// for maximum items to be displayed
+	const displayItems = maxItems ? items.slice(0, maxItems) : items;
 	return (
 		<div className="mb-8">
 			<div className="flex justify-between items-baseline pb-4">
@@ -24,12 +26,16 @@ const Content = <T extends Movie | Series>({ label, type, items, render }: Conte
 				</div>
 			</div>
 			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
-				{items && items?.length > 0 ? (
-					items?.slice(0, 6).map((item) => (
-						<Link to={`/detail/${type}/${item.id}`} key={item.id}>
-							<li className="flex flex-col items-center">{render(item)}</li>
-						</Link>
-					))
+				{displayItems && displayItems?.length > 0 ? (
+					displayItems.map((item) => {
+						// dynamically determining the type
+						let itemType = 'title' in item ? 'movie' : 'tv';
+						return (
+							<Link to={`/detail/${itemType}/${item.id}`} key={item.id}>
+								<li className="flex flex-col items-center">{render(item)}</li>
+							</Link>
+						);
+					})
 				) : (
 					<p>No movies found</p>
 				)}

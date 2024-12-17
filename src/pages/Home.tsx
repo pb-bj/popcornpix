@@ -1,6 +1,4 @@
-import { useQueryParams } from '../hooks/useFetchMedia';
 import useMediaData from '../hooks/useMediaData';
-import useSearchDetail from '../hooks/useSearchDetail';
 import { Movie } from '../types/Movie';
 import { Series } from '../types/Series';
 import { TrendingMovie, TrendingSeries } from '../types/Trending';
@@ -8,20 +6,15 @@ import { Content } from './../components/index';
 
 const Home = () => {
 	const { popularMovies, popularSeries, trendingMovies, trendingSeries, isLoading, error } = useMediaData();
-	const { searchDetail } = useSearchDetail();
-	const { data } = useQueryParams(searchDetail);
 
 	if (isLoading) return <p>Loading....</p>;
 	if (error) return <p>Error </p>;
-
-	console.log('home', data);
 
 	return (
 		<section className="px-4 py-6 w-full">
 			{/* use of generic contenxt component (Content) */}
 			<Content<TrendingMovie>
 				label="Trending - Movie"
-				type="movie"
 				items={(trendingMovies?.results ?? []) as TrendingMovie[]}
 				render={(item) => (
 					<>
@@ -35,10 +28,10 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.title}</p>
 					</>
 				)}
+				maxItems={12}
 			/>
 			<Content<TrendingSeries>
 				label="Trending - Series"
-				type="tv"
 				items={(trendingSeries?.results ?? []) as TrendingSeries[]}
 				render={(item) => (
 					<>
@@ -52,10 +45,10 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.name}</p>
 					</>
 				)}
+				maxItems={12}
 			/>
 			<Content<Movie>
 				label="Popular - Movie"
-				type="movie"
 				items={(popularMovies?.results || []) as Movie[]}
 				render={(item) => (
 					<>
@@ -69,11 +62,11 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.title}</p>
 					</>
 				)}
+				maxItems={12}
 			/>
 
 			<Content<Series>
 				label="Popular - Series"
-				type="tv"
 				items={(popularSeries?.results ?? []) as Series[]}
 				render={(item) => (
 					<>
@@ -87,6 +80,7 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.name}</p>
 					</>
 				)}
+				maxItems={12}
 			/>
 		</section>
 	);
