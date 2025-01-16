@@ -1,3 +1,4 @@
+import { CastCredit } from '../types/CastCredit';
 import {
 	DetailResponse,
 	MovieResponse,
@@ -49,5 +50,11 @@ export const getSeasonDetails = async (series_id: number, series_number: number)
 // MULTI-SEARCH
 export const getSearchResults = async (searchedQueries: string): Promise<MultiSearchResponse> => {
 	const { data } = await instance.get<MultiSearchResponse>(`/search/multi?query=${searchedQueries}`);
+	return data;
+};
+
+// CAST CREDITS
+export const getCastCreditDetail = async (type: EndpointProps, id: number): Promise<CastCredit> => {
+	const { data } = await instance.get<CastCredit>(`/${type}/${id}/credits`);
 	return data;
 };

@@ -1,8 +1,8 @@
 import { Clapperboard, FolderClock } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, GenreList } from '../../components';
-import { useMediaDetails } from '../../hooks/useFetchMedia';
+import { Button, InfoPanel } from '../../components';
+import { useCastCredits, useMediaDetails } from '../../hooks/useFetchMedia';
 import { EndpointProps } from '../../services/api';
 import ImdbImage from './../../assets/imdb.png';
 import { isMovieDetails, isSeriesDetails } from './../../utils/typeGuards';
@@ -20,6 +20,10 @@ export default function DetailPage() {
 	const mediaId = parseInt(id);
 	const mediaType = type === 'movie' ? 'movie' : 'tv';
 	const { data, isLoading, error } = useMediaDetails(mediaType, mediaId);
+
+	// cast
+	const { data: castInfo } = useCastCredits(mediaType, mediaId);
+
 	const [showTrailer, setShowTrailer] = useState(false);
 
 	if (isLoading) return <p>Loading...</p>;
@@ -61,7 +65,12 @@ export default function DetailPage() {
 							<p className="pt-4 py-2.5 text-sm font-light text-gray-300 italic">{data?.tagline}</p>
 
 							{/* genre */}
-							<GenreList genres={data?.genres} />
+							{/* <GenreList genres={data?.genres} /> */}
+							<InfoPanel label="Genres" items={data.genres} isCast={false} />
+
+							{/* cast */}
+							{/* used of nullish colescing operator to provide an empty array for fallback */}
+							<InfoPanel label="Cast" items={castInfo?.cast} isCast={true} />
 
 							<div>
 								<div className="uppercase text-xs mt-4 text-p4 font-semibold">production</div>
@@ -113,9 +122,13 @@ export default function DetailPage() {
 							</div>
 
 							{/* genres */}
-							<GenreList genres={data?.genres} />
-							{/* Networks */}
+							{/* <GenreList genres={data?.genres} /> */}
+							{/* <InfoPanel label="Generic" items={data.genres} /> */}
+							<InfoPanel label="Genres" items={data.genres} isCast={false} />
 
+							{/* Cast */}
+							<InfoPanel label="Genres" items={castInfo?.cast} isCast={true} />
+							{/* Networks */}
 							<div>
 								<div className="uppercase text-xs mt-4 text-p4 font-semibold">Networks </div>
 								<ul className="flex items-baseline space-x-4 text-sm py-2.5">

@@ -29,7 +29,7 @@ const Content = <T extends Movie | Series>({ label, items, render, maxItems }: C
 					</>
 				)}
 			</div>
-			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
+			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 ">
 				{displayItems && displayItems?.length > 0 ? (
 					displayItems.map((item) => {
 						// dynamically determining the type

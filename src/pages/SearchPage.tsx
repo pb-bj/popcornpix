@@ -5,10 +5,11 @@ import { useQueryParams } from '../hooks/useFetchMedia';
 import useSearchDetail from '../hooks/useSearchDetail';
 import { Movie } from '../types/Movie';
 import { Series } from '../types/Series';
+import UnavailabelImage from './../assets/posterImage.png';
 
 const SearchPage = () => {
 	const { searchDetail, resetSearchDetail } = useSearchDetail();
-	const { data, isLoading } = useQueryParams(searchDetail);
+	const { data } = useQueryParams(searchDetail);
 
 	useEffect(() => {
 		resetSearchDetail();
@@ -25,9 +26,9 @@ const SearchPage = () => {
 							<>
 								<div className="cursor-pointer sm:hover:border sm:hover:border-gray-50 sm:hover:rounded-md">
 									<img
-										src={`${import.meta.env.VITE_APP_TMDB_IMAGE_SMALL_URL}/${item.poster_path}`}
+										src={item.poster_path ? `${import.meta.env.VITE_APP_TMDB_IMAGE_SMALL_URL}/${item.poster_path}` : UnavailabelImage}
 										alt={'title' in item ? item.title : item.name}
-										className="w-full h-full object-cover rounded-md shadow-md"
+										className=" w-full  object-cover rounded-md shadow-md h-auto"
 									/>
 								</div>
 								<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{'title' in item ? item.title : item.name}</p>

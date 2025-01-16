@@ -28,7 +28,7 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.title}</p>
 					</>
 				)}
-				maxItems={12}
+				maxItems={16}
 			/>
 			<Content<TrendingSeries>
 				label="Trending - Series"
@@ -45,7 +45,7 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.name}</p>
 					</>
 				)}
-				maxItems={12}
+				maxItems={16}
 			/>
 			<Content<Movie>
 				label="Popular - Movie"
@@ -62,7 +62,7 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.title}</p>
 					</>
 				)}
-				maxItems={12}
+				maxItems={16}
 			/>
 
 			<Content<Series>
@@ -80,7 +80,7 @@ const Home = () => {
 						<p className="pt-2 text-[11.5px] sm:text-[13px] text-center truncate w-full">{item.name}</p>
 					</>
 				)}
-				maxItems={12}
+				maxItems={16}
 			/>
 		</section>
 	);
