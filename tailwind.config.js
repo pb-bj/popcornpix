@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+	darkMode: ['class'],
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
 		extend: {
@@ -13,11 +14,19 @@ export default {
 				p7: '#84838B',
 				bg1: '#14122a',
 				bg2: '#1E1C2F',
+				bg3: '#181538',
+				bg4: '#221f42',
+				bg4: '#0f0d20',
+			},
+			borderRadius: {
+				lg: 'var(--radius)',
+				md: 'calc(var(--radius) - 2px)',
+				sm: 'calc(var(--radius) - 4px)',
 			},
 		},
 		fontFamily: {
 			primary: ['Plus Jakarta Sans', 'sans-serif'],
 		},
 	},
-	plugins: [],
+	plugins: [require('tailwindcss-animate')],
 };

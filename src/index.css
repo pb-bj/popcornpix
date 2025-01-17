@@ -31,6 +31,9 @@
 	body {
 		@apply font-primary text-p3;
 	}
+  :root {
+		--radius: 0.5rem;
+	}
 }
 
 @layer utilities {
