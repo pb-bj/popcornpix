@@ -122,7 +122,6 @@ export default function DetailPage() {
 							</div>
 
 							{/* genres */}
-							{/* <GenreList genres={data?.genres} /> */}
 							{/* <InfoPanel label="Generic" items={data.genres} /> */}
 							<InfoPanel label="Genres" items={data.genres} isCast={false} />
 
