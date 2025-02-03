@@ -43,3 +43,12 @@ export type MultiSearchResponse = {
 	total_pages: number;
 	total_results: number;
 };
+
+// Discover Response
+type NewMovieType = Pick<Movie, 'id' | 'adult' | 'title' | 'backdrop_path' | 'genre_ids' | 'popularity' | 'poster_path'>;
+type NewSeriesType = Pick<Series, 'id' | 'adult' | 'name' | 'backdrop_path' | 'genre_ids' | 'popularity' | 'poster_path'>;
+
+export type DiscoveMediaResponse = {
+	page: number;
+	results: NewMovieType[] | NewSeriesType[];
+};
