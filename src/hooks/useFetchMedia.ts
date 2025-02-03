@@ -3,6 +3,7 @@ import {
 	EndpointProps,
 	getCastCreditDetail,
 	getDetailData,
+	getDiscoverMedia,
 	getPopularData,
 	getSearchResults,
 	getSeasonDetails,
@@ -77,5 +78,13 @@ export const useCastCredits = (type: EndpointProps, id: number) => {
 	return useQuery({
 		queryKey: ['cast', type, id],
 		queryFn: () => getCastCreditDetail(type, id),
+	});
+};
+
+// DISCOVER MEDIA
+export const useDiscoverMedia = (type: string, sort_by: string, genres_no: string) => {
+	return useQuery({
+		queryKey: ['discover', type, sort_by, genres_no],
+		queryFn: () => getDiscoverMedia(type, sort_by, genres_no),
 	});
 };
