@@ -4,7 +4,7 @@ type FilterSelectProps = {
 	value: string;
 	onHandleMedia: (value: string) => void;
 	placeholder: string;
-	items: { id: number; title: string }[];
+	items: { id: string; title: string }[];
 };
 
 const FilterSelect = ({ value, onHandleMedia, placeholder, items }: FilterSelectProps) => {
