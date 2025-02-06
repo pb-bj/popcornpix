@@ -1,4 +1,4 @@
-import { FilterDialog, FilterSelect } from '@/components';
+import { FilterDialog, FilterSelect, PaginationComponent } from '@/components';
 import { mediaContent, mediaMovieGenre, mediaSeriesGenre, mediaTitle } from '@/constants/FilterMenu';
 import { useDiscoverMedia } from '@/hooks/useFetchMedia';
 import { useEffect, useState } from 'react';
@@ -8,12 +8,17 @@ const DiscoverPage = () => {
 	const [currentMediaTitle, setCurrentMediaTitle] = useState(mediaTitle[0].title);
 	const [currentMediaContent, setCurrentMediaContent] = useState(mediaContent[0].title);
 	const [currentMediaGenres, setCurrentMediaGenres] = useState(mediaMovieGenre[0].title);
+	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
 		// for dynamically changing the state value depending on media title
 		const initialGenre = currentMediaTitle.toLowerCase() === 'movie' ? mediaMovieGenre[0].title : mediaSeriesGenre[0].title;
 		setCurrentMediaGenres(initialGenre);
 	}, [currentMediaTitle]);
+
+	useEffect(() => {
+		setCurrentPage(1);
+	}, [currentMediaTitle, currentMediaContent, currentMediaGenres]);
 
 	const handleMediaTitle = (value: string) => {
 		setCurrentMediaTitle(value);
@@ -32,15 +37,11 @@ const DiscoverPage = () => {
 
 	const genre_no = displayGenre.find((genre) => genre.title === currentMediaGenres)?.id || '0';
 
-	// TODO: loading state
-	// TODO: add the page query in discover api
-	// TODO: filter option on smaller device : need to close the filter option on every render.
-	//TODO: adding pagination
-
 	//FIXME: Need to fix the back routing when from going grom detail -> going direct home instead fo prevoius visited route
+	//FIXME: pagination not shown when in mobile view
+	//FIXME: when reloading need to use skeleton or maybe
 
-	const { data } = useDiscoverMedia(currentMediaTitle.toLowerCase(), displayContent, genre_no);
-	// console.log(data);
+	const { data, isLoading } = useDiscoverMedia(currentMediaTitle.toLowerCase(), currentPage, displayContent, genre_no);
 
 	return (
 		<section className="px-4 py-6 w-full relative">
@@ -91,8 +92,13 @@ const DiscoverPage = () => {
 					)}
 				</div>
 			</div>
+			{isLoading ? <p>Loading...</p> : null}
 			<div className="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 mt-3">
 				<DiscoverContent content={data} />
+			</div>
+			{/* pagination */}
+			<div className="flex justify-center items-center mx-auto relative">
+				<PaginationComponent page={currentPage} totalPages={data?.total_pages} setCurrentPage={setCurrentPage} />
 			</div>
 		</section>
 	);

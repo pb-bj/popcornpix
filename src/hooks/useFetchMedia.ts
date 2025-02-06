@@ -82,9 +82,9 @@ export const useCastCredits = (type: EndpointProps, id: number) => {
 };
 
 // DISCOVER MEDIA
-export const useDiscoverMedia = (type: string, sort_by: string, genres_no: string) => {
+export const useDiscoverMedia = (type: string, pages: number, sort_by: string, genres_no: string) => {
 	return useQuery({
-		queryKey: ['discover', type, sort_by, genres_no],
-		queryFn: () => getDiscoverMedia(type, sort_by, genres_no),
+		queryKey: ['discover', type, pages, sort_by, genres_no],
+		queryFn: () => getDiscoverMedia(type, pages, sort_by, genres_no),
 	});
 };

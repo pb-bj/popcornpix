@@ -1,6 +1,7 @@
 import { CastCredit } from '../types/CastCredit';
 import {
 	DetailResponse,
+	DiscoveMediaResponse,
 	MovieResponse,
 	MultiSearchResponse,
 	SeriesResponse,
@@ -24,7 +25,11 @@ export const getPopularData = async (type: EndpointProps, page: number): Promise
 };
 
 // TRENDING MOVIE | TV SERIES
-export const getTrendingData = async (type: EndpointProps, time_window: TimeWindowType, page: number): Promise<TrendingResponse> => {
+export const getTrendingData = async (
+	type: EndpointProps,
+	time_window: TimeWindowType,
+	page: number
+): Promise<TrendingResponse> => {
 	const { data } = await instance.get<TrendingResponse>(`/trending/${type}/${time_window}?page=${page}`);
 	return data;
 };
@@ -56,5 +61,24 @@ export const getSearchResults = async (searchedQueries: string): Promise<MultiSe
 // CAST CREDITS
 export const getCastCreditDetail = async (type: EndpointProps, id: number): Promise<CastCredit> => {
 	const { data } = await instance.get<CastCredit>(`/${type}/${id}/credits`);
+	return data;
+};
+
+// DISCOVER MOVIES | SERIES
+export const getDiscoverMedia = async (
+	type: string,
+	pages: number,
+	sort_by: string,
+	genres_no: string
+): Promise<DiscoveMediaResponse> => {
+	let endpoint = '';
+
+	if (sort_by === 'popularity.desc') {
+		endpoint += `/discover/${type}?page=${pages}&sort_by=${sort_by}&with_genres=${genres_no}`;
+	} else {
+		endpoint += `/${type}/top_rated?page=${pages}`;
+	}
+
+	const { data } = await instance.get<DiscoveMediaResponse>(endpoint);
 	return data;
 };

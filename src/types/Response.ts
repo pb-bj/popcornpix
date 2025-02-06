@@ -51,4 +51,5 @@ type NewSeriesType = Pick<Series, 'id' | 'adult' | 'name' | 'backdrop_path' | 'g
 export type DiscoveMediaResponse = {
 	page: number;
 	results: NewMovieType[] | NewSeriesType[];
+	total_pages: number;
 };
