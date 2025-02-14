@@ -1,3 +1,4 @@
+import { Skeleton } from '@/components/ui/skeleton';
 import useMediaData from '../hooks/useMediaData';
 import { Movie } from '../types/Movie';
 import { Series } from '../types/Series';
@@ -7,7 +8,18 @@ import { Content } from './../components/index';
 const Home = () => {
 	const { popularMovies, popularSeries, trendingMovies, trendingSeries, isLoading, error } = useMediaData();
 
-	if (isLoading) return <p>Loading....</p>;
+	if (isLoading) {
+		return (
+			<ul className="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 ">
+				{Array.from({ length: 16 }).map((_, index) => (
+					<div key={index} className="space-y-2">
+						<Skeleton className="w-full h-[220px] rounded-md bg-gray-500" />
+						<Skeleton className="h-4 w-3/4 mx-auto bg-gray-500" />
+					</div>
+				))}
+			</ul>
+		);
+	}
 	if (error) return <p>Error </p>;
 
 	return (

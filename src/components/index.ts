@@ -7,6 +7,19 @@ import InfoPanel from './InfoPanel';
 import Navbar from './Navbar';
 import PaginationComponent from './PaginationComponent';
 import SearchBox from './SearchBox';
+import SkeletonCard from './SkeletonCard';
 import UserProfile from './UserProfile';
 
-export { Button, Card, Content, FilterDialog, FilterSelect, InfoPanel, Navbar, PaginationComponent, SearchBox, UserProfile };
+export {
+	Button,
+	Card,
+	Content,
+	FilterDialog,
+	FilterSelect,
+	InfoPanel,
+	Navbar,
+	PaginationComponent,
+	SearchBox,
+	SkeletonCard,
+	UserProfile,
+};

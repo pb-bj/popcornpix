@@ -1,7 +1,6 @@
 import { Compass, House, LibraryBig } from 'lucide-react';
-import { MenuType } from '../types';
 
-export const menus: MenuType[] = [
+export const menus = [
 	{
 		id: 'home',
 		title: 'Board',

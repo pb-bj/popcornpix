@@ -1,4 +1,5 @@
 import { FilterDialog, FilterSelect, PaginationComponent } from '@/components';
+import { Skeleton } from '@/components/ui/skeleton';
 import { mediaContent, mediaMovieGenre, mediaSeriesGenre, mediaTitle } from '@/constants/FilterMenu';
 import { useDiscoverMedia } from '@/hooks/useFetchMedia';
 import { useEffect, useState } from 'react';
@@ -37,11 +38,20 @@ const DiscoverPage = () => {
 
 	const genre_no = displayGenre.find((genre) => genre.title === currentMediaGenres)?.id || '0';
 
-	//FIXME: Need to fix the back routing when from going grom detail -> going direct home instead fo prevoius visited route
-	//FIXME: pagination not shown when in mobile view
-	//FIXME: when reloading need to use skeleton or maybe
-
 	const { data, isLoading } = useDiscoverMedia(currentMediaTitle.toLowerCase(), currentPage, displayContent, genre_no);
+
+	if (isLoading) {
+		return (
+			<div className="min-h-[500px] grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 mt-3">
+				{Array.from({ length: 16 }).map((_, index) => (
+					<div key={index} className="space-y-2">
+						<Skeleton className="w-full h-[220px] rounded-md bg-gray-500" />
+						<Skeleton className="h-4 w-3/4 mx-auto bg-gray-500" />
+					</div>
+				))}
+			</div>
+		);
+	}
 
 	return (
 		<section className="px-4 py-6 w-full relative">
@@ -92,8 +102,18 @@ const DiscoverPage = () => {
 					)}
 				</div>
 			</div>
-			{isLoading ? <p>Loading...</p> : null}
-			<div className="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 mt-3">
+
+			{isLoading && (
+				<div className="min-h-[500px] grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 mt-3">
+					{Array.from({ length: 16 }).map((_, index) => (
+						<div key={index} className="space-y-2">
+							<Skeleton className="w-full h-[220px] rounded-md bg-gray-500" />
+							<Skeleton className="h-4 w-3/4 mx-auto bg-gray-500" />
+						</div>
+					))}
+				</div>
+			)}
+			<div className="min-h-[500px] grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 mt-3">
 				<DiscoverContent content={data} />
 			</div>
 			{/* pagination */}
