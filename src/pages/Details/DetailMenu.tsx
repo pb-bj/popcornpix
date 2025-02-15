@@ -12,7 +12,7 @@ const DetailMenu = () => {
 	return (
 		<nav className="relative w-full text-p7 hover:text-p2 2xl:container 2xl:mx-auto flex items-center justify-between px-2 md:px-4 py-3 shadow-sm z-10 ">
 			<div>
-				<div className="flex" onClick={handleNavigation}>
+				<div className="flex cursor-pointer" onClick={handleNavigation}>
 					<ChevronLeft /> <span>back</span>
 				</div>
 			</div>

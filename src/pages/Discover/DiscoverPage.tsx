@@ -54,7 +54,7 @@ const DiscoverPage = () => {
 	}
 
 	return (
-		<section className="px-4 py-6 w-full relative">
+		<section className="px-4 py-6 w-full">
 			<div className="sticky top-0 z-50 h-[45px] bg-bg1 w-full flex justify-between items-center sm:justify-normal sm:items-start gap-2">
 				{/* media-title-filter */}
 				<FilterSelect

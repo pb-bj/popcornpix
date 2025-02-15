@@ -6,7 +6,7 @@ import App from './App.tsx';
 import MediaProvider from './contexts/MediaProvider.tsx';
 import SearchDataProvider from './contexts/SearchDataProvider.tsx';
 import './index.css';
-import { DetailPage, DiscoverPage, Home, SearchPage, Watchlist } from './pages';
+import { DetailPage, DiscoverPage, Home, Login, Register, SearchPage, Watchlist } from './pages';
 import { ErrorPage } from './routes';
 
 const queryClient = new QueryClient();
@@ -36,6 +36,14 @@ const router = createBrowserRouter([
 			{
 				path: '/search',
 				element: <SearchPage />,
+			},
+			{
+				path: '/login',
+				element: <Login />,
+			},
+			{
+				path: '/register',
+				element: <Register />,
 			},
 		],
 	},

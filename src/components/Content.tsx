@@ -14,6 +14,7 @@ type ContentProps<T extends Movie | Series> = {
 const Content = <T extends Movie | Series>({ label, items, render, maxItems }: ContentProps<T>) => {
 	// for maximum items to be displayed
 	const displayItems = maxItems ? items.slice(0, maxItems) : items;
+
 	return (
 		<div className="mb-8">
 			<div className="flex justify-between items-baseline pb-4">
@@ -21,7 +22,9 @@ const Content = <T extends Movie | Series>({ label, items, render, maxItems }: C
 				{maxItems && (
 					<>
 						<div className="flex items-center justify-between w-[80px] text-sm text-p2 cursor-pointer px-1.5 sm:text-secondary sm:hover:text-white sm:hover:bg-p4 sm:hover:rounded-xl sm:hover:shadow-lg">
-							<div>See All</div>
+							<Link to={'/discover'} className="cursor-pointer">
+								See All
+							</Link>
 							<div>
 								<ChevronRight width={20} />
 							</div>

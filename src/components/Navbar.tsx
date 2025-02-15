@@ -6,6 +6,7 @@ import SearchBox from './SearchBox';
 
 export default function Navbar() {
 	const { setSearchDetail } = useSearchDetail();
+
 	return (
 		<>
 			<header className="fixed top-0 left-0 z-50 w-full overflow-hidden bg-bg1">
@@ -20,9 +21,12 @@ export default function Navbar() {
 					<div>
 						<SearchBox setSearchDetail={setSearchDetail} />
 					</div>
-					{/* User profile  */}
+					{/* User profile */}
 					<div className="cursor-pointer text-p7">
-						<User className="w-8" />
+						{/* <User className="w-8" /> */}
+						<Link to={'/login'}>
+							<User />
+						</Link>
 					</div>
 				</nav>
 			</header>
