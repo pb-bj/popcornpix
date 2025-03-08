@@ -1,6 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { UserProfile } from '../../components';
+// import { UserProfile } from '../../components';
 
 const DetailMenu = () => {
 	const navigate = useNavigate();
@@ -16,9 +16,9 @@ const DetailMenu = () => {
 					<ChevronLeft /> <span>back</span>
 				</div>
 			</div>
-			<div>
+			{/* <div>
 				<UserProfile />
-			</div>
+			</div> */}
 		</nav>
 	);
 };
