@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import Popcornpix from '../../assets/image.png';
 
 const validationSchema = yup.object().shape({
+	username: yup.string().required('* Username is required'),
 	email: yup.string().required('* Email is required').email('* Email is invalid'),
 	password: yup.string().min(6, '* Password must be at least 6 characters').required('* Password is required'),
 });
@@ -38,10 +39,10 @@ const Register = () => {
 
 	const onSubmit: SubmitHandler<FormInputType> = async (data) => {
 		try {
-			const { email, password } = data;
+			const { username, email, password } = data;
 
 			if (email && password) {
-				await signUpNewUser(email, password);
+				await signUpNewUser(username, email, password);
 				navigate('/login');
 			}
 		} catch (error: any) {
@@ -81,6 +82,11 @@ const Register = () => {
 								<span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with email</span>
 							</div>
 							<div className="grid gap-6">
+								<div className="grid gap-2">
+									<Label htmlFor="email">Username</Label>
+									<Input className="p-5 border-gray-500" {...register('username')} id="username" type="text" autoComplete="off" />
+									<span className="text-xs text-red-400">{errors.username?.message}</span>
+								</div>
 								<div className="grid gap-2">
 									<Label htmlFor="email">Email</Label>
 									<Input className="p-5 border-gray-500" {...register('email')} id="email" type="email" autoComplete="off" />

@@ -1,3 +1,4 @@
+import useAuth from '@/hooks/useAuth';
 import { User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Popcornpix from '../assets/image.png';
@@ -5,6 +6,7 @@ import useSearchDetail from '../hooks/useSearchDetail';
 import SearchBox from './SearchBox';
 
 export default function Navbar() {
+	const { user } = useAuth();
 	const { setSearchDetail } = useSearchDetail();
 
 	return (
@@ -24,9 +26,15 @@ export default function Navbar() {
 					{/* User profile */}
 					<div className="cursor-pointer text-p7">
 						{/* <User className="w-8" /> */}
-						<Link to={'/login'}>
-							<User />
-						</Link>
+						{user?.email === undefined ? (
+							<Link to={'/login'}>
+								<User />
+							</Link>
+						) : (
+							<Link to={'/user/profile'}>
+								<img src={`${user.user_metadata.avatar_url}`} className="rounded-full" width={40} />
+							</Link>
+						)}
 					</div>
 				</nav>
 			</header>

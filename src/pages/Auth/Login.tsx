@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import useAuth from '@/hooks/useAuth';
-import { FormInputType } from '@/types/form-input';
+import { FormInputSignInType } from '@/types/form-input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
@@ -25,7 +25,7 @@ const Login = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
-	} = useForm<FormInputType>({
+	} = useForm<FormInputSignInType>({
 		resolver: yupResolver(validationSchema),
 	});
 
@@ -37,7 +37,7 @@ const Login = () => {
 		await signWithGoogle();
 	};
 
-	const onSubmit: SubmitHandler<FormInputType> = async (data) => {
+	const onSubmit: SubmitHandler<FormInputSignInType> = async (data) => {
 		try {
 			const { email, password } = data;
 			if (email && password) {

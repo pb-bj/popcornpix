@@ -12,7 +12,7 @@ export default function Watchlist() {
 					<h3>Library is only available for logged users</h3>
 				</div>
 			)}
-			<div>{user?.email} this is your Library</div>
+			<div>Currently nothing on watchlist</div>
 		</section>
 	);
 }

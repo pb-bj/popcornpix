@@ -1,6 +1,7 @@
-import { Clapperboard, FolderClock } from 'lucide-react';
+import useAuth from '@/hooks/useAuth';
+import { Clapperboard, FolderClock, FolderX } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, InfoPanel } from '../../components';
 import { useCastCredits, useMediaDetails } from '../../hooks/useFetchMedia';
 import { EndpointProps } from '../../services/api';
@@ -20,6 +21,9 @@ export default function DetailPage() {
 	const mediaId = parseInt(id);
 	const mediaType = type === 'movie' ? 'movie' : 'tv';
 	const { data, isLoading, error } = useMediaDetails(mediaType, mediaId);
+	const [addToLibrary, setAddToLibrary] = useState(true);
+	const { user } = useAuth();
+	const navigate = useNavigate();
 
 	// cast
 	const { data: castInfo } = useCastCredits(mediaType, mediaId);
@@ -30,7 +34,22 @@ export default function DetailPage() {
 	if (error) return <p>Error</p>;
 
 	if (!data) return null;
+
 	const backgroundImage = `${import.meta.env.VITE_APP_TMDB_IMAGE_ORIGINAL_URL}/${data?.backdrop_path}`;
+
+	const handleAddToLibrary = () => {
+		if (!user) {
+			navigate('/login');
+			return;
+		}
+		alert('added');
+		setAddToLibrary(false);
+	};
+
+	const handleRemoveFromLibrary = () => {
+		alert('removed');
+		setAddToLibrary(true);
+	};
 
 	return (
 		<>
@@ -146,7 +165,11 @@ export default function DetailPage() {
 
 					{/* buttons */}
 					<div className="flex items-center justify-center space-x-3 mt-8 mb-3 md:items-start md:justify-start md:mx-0">
-						<Button label="Add to Library" onClick={() => alert('clicked')} Icon={FolderClock} />
+						{addToLibrary ? (
+							<Button label="Add to Library" onClick={handleAddToLibrary} Icon={FolderClock} />
+						) : (
+							<Button label="Remove from Library" onClick={handleRemoveFromLibrary} Icon={FolderX} />
+						)}
 						<Button label="Trailer" onClick={() => setShowTrailer(!showTrailer)} Icon={Clapperboard} />
 					</div>
 				</div>

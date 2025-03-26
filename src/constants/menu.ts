@@ -19,4 +19,10 @@ export const menus = [
 		icon: LibraryBig,
 		route: '/watchlist',
 	},
+	// {
+	// 	id: 'account',
+	// 	title: 'Account',
+	// 	icon: User,
+	// 	route: '/user',
+	// },
 ];
