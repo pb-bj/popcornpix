@@ -11,7 +11,7 @@ type AuthResponse = {
 type AuthContextType = {
 	user: User | null;
 	loading: boolean;
-	signUpNewUser: (username: string, email: string, password: string) => Promise<AuthResponse>;
+	signUpNewUser: (email: string, password: string) => Promise<AuthResponse>;
 	signInUser: (email: string, password: string) => Promise<AuthResponse>;
 	signWithGoogle: () => Promise<void>;
 	signOut: () => Promise<void>;
@@ -34,25 +34,23 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 
-	const signUpNewUser = async (username: string, email: string, password: string) => {
+	const signUpNewUser = async (email: string, password: string) => {
 		try {
 			const { data, error } = await supabase.auth.signUp({
 				email,
 				password,
-				options: {
-					data: {
-						username,
-						avatar_url: 'https://web.stremio.com/images/default_avatar.png',
-					},
-				},
 			});
 			if (error) throw error;
 
-			setUser(data.user);
+			if (data.user) {
+				console.log(data.user.id);
+				setUser(data.user);
+			}
 			toast.success('Account Created! Check your email to verify');
 
 			return { user: data.user, session: data.session };
-		} catch (error: any) {
+		} catch (error) {
+			console.error('Signup error', error);
 			throw error;
 		}
 	};
@@ -76,8 +74,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (event, session) => {
-			if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
-				setUser(session?.user ?? null);
+			if (event === 'SIGNED_IN' && session?.user) {
+				setUser(session?.user);
+				// try {
+				// 	await insertUserProfile(session.user.id);
+				// } catch (error) {
+				// 	console.log('Profile creation failed', error);
+				// }
+				// await insertUserProfile(session?.user.id);
 			} else if (event === 'SIGNED_OUT') {
 				setUser(null);
 			}
@@ -92,6 +96,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 		try {
 			const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 			if (error) throw error;
+
 			setUser(data.user);
 			toast.success('Sign in successfull', {
 				position: 'top-right',

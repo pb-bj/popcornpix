@@ -1,4 +1,5 @@
 import useAuth from '@/hooks/useAuth';
+import { addToUserLibrary } from '@/services/supabase-library';
 import { Clapperboard, FolderClock, FolderX } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -37,17 +38,19 @@ export default function DetailPage() {
 
 	const backgroundImage = `${import.meta.env.VITE_APP_TMDB_IMAGE_ORIGINAL_URL}/${data?.backdrop_path}`;
 
-	const handleAddToLibrary = () => {
+	const handleAddToLibrary = async () => {
 		if (!user) {
 			navigate('/login');
 			return;
 		}
-		alert('added');
+		await addToUserLibrary(user.id, mediaType, mediaId);
+		console.log('added to database: ' + user.id, mediaType, mediaId);
 		setAddToLibrary(false);
 	};
 
-	const handleRemoveFromLibrary = () => {
-		alert('removed');
+	const handleRemoveFromLibrary = async () => {
+		// await deleteFromUserLibrary();
+		alert('delte');
 		setAddToLibrary(true);
 	};
 
@@ -145,7 +148,7 @@ export default function DetailPage() {
 							<InfoPanel label="Genres" items={data.genres} isCast={false} />
 
 							{/* Cast */}
-							<InfoPanel label="Genres" items={castInfo?.cast} isCast={true} />
+							<InfoPanel label="Casts" items={castInfo?.cast} isCast={true} />
 							{/* Networks */}
 							<div>
 								<div className="uppercase text-xs mt-4 text-p4 font-semibold">Networks </div>
