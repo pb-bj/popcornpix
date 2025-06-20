@@ -7,7 +7,7 @@ export default function App() {
 
 	const hiddenItemsDetailPage = pathname.startsWith('/detail');
 	const hiddenItemsLoginPage = pathname.startsWith('/login');
-	const hiddenItemsRegisterPage = pathname.startsWith('/register');
+	const hiddenItemsRegisterPage = pathname.startsWith('/signup');
 
 	return (
 		<>
@@ -23,9 +23,7 @@ export default function App() {
 									<li key={menu.id} className="sm:px-1.5 sm:mt-5 sm:py-2">
 										<Link
 											to={menu.route}
-											className={`sm:flex sm:flex-col sm:items-center sm:space-y-1 sm:w-full sm:h-full sm:text-center text-p7 cursor-pointer ${
-												isActive ? 'text-white' : 'text-p7'
-											}`}
+											className={`sm:flex sm:flex-col sm:items-center sm:space-y-1 sm:w-full sm:h-full sm:text-center text-p7 cursor-pointer ${isActive ? 'text-white' : 'text-p7'}`}
 										>
 											<menu.icon />
 											<p className="text-[11px] font-medium">{menu.title}</p>
@@ -38,9 +36,7 @@ export default function App() {
 				)}
 				<div
 					className={`overflow-auto pb-[75px] ${
-						hiddenItemsDetailPage && hiddenItemsLoginPage && hiddenItemsRegisterPage
-							? 'w-full h-screen bg-bg1'
-							: 'px-3 mt-9 sm:px-11 sm:ml-10 sm:mt-7 '
+						hiddenItemsDetailPage && hiddenItemsLoginPage && hiddenItemsRegisterPage ? 'w-full h-screen bg-bg1' : 'px-3 mt-9 sm:px-11 sm:ml-10 sm:mt-7 '
 					} `}
 				>
 					<Outlet />
@@ -54,10 +50,7 @@ export default function App() {
 							const isActive = pathname === menu.route;
 							return (
 								<li key={menu.id}>
-									<Link
-										to={menu.route}
-										className={`flex flex-col items-center text-center px-3.5 py-2 cursor-pointer ${isActive ? 'text-white' : 'text-p7'}`}
-									>
+									<Link to={menu.route} className={`flex flex-col items-center text-center px-3.5 py-2 cursor-pointer ${isActive ? 'text-white' : 'text-p7'}`}>
 										<menu.icon />
 										<span className="text-[11px] ">{menu.title}</span>
 									</Link>

@@ -8,7 +8,7 @@ import AuthProvider from './contexts/AuthProvider.tsx';
 import MediaProvider from './contexts/MediaProvider.tsx';
 import SearchDataProvider from './contexts/SearchDataProvider.tsx';
 import './index.css';
-import { DetailPage, DiscoverPage, Home, Login, ProtectedRoute, Register, SearchPage, UserProfile, Watchlist } from './pages';
+import { DetailPage, DiscoverPage, Home, Login, ProtectedRoute, Register, SearchPage, UserAccountSetting, UserProfile, Watchlist } from './pages';
 import { ErrorPage } from './routes';
 
 const queryClient = new QueryClient();
@@ -44,13 +44,22 @@ const router = createBrowserRouter([
 				element: <Login />,
 			},
 			{
-				path: '/register',
+				path: '/signup',
 				element: <Register />,
 			},
 			{
 				path: '/user',
 				element: <ProtectedRoute />,
-				children: [{ path: '/user/profile', element: <UserProfile /> }],
+				children: [
+					{
+						path: '/user/profile',
+						element: <UserProfile />,
+					},
+					{
+						path: '/user/profile/setting',
+						element: <UserAccountSetting />,
+					},
+				],
 			},
 		],
 	},
@@ -68,5 +77,5 @@ createRoot(document.getElementById('root')!).render(
 				</MediaProvider>
 			</AuthProvider>
 		</QueryClientProvider>
-	</StrictMode>
+	</StrictMode>,
 );
