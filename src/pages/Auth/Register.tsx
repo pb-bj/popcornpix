@@ -1,119 +1,130 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import useAuth from '@/hooks/useAuth';
 import { FormInputType } from '@/types/form-input';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AuthError } from '@supabase/supabase-js';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as yup from 'yup';
 import Popcornpix from '../../assets/image.png';
 
 const validationSchema = yup.object().shape({
-	email: yup.string().required('* Email is required').email('* Email is invalid'),
-	password: yup.string().min(6, '* Password must be at least 6 characters').required('* Password is required'),
+	email: yup.string().required('Please enter an email address for signup').email('Please enter a valid email address for signup'),
 });
 
 const Register = () => {
-	const { signUpNewUser, signWithGoogle } = useAuth();
-	let navigate = useNavigate();
+	const { sendMagicLink, loading } = useAuth();
+	const [transitionToEmail, setTransitionToEmail] = useState(false);
+	const [emailAddress, setEmailAddress] = useState('');
+	const [checkEmailSend, setCheckEmailSend] = useState(false);
+	const [isDisabled, setIsDisable] = useState(false);
+
+	const handleClickOnEmail = () => setTransitionToEmail(!transitionToEmail);
 
 	const {
 		register,
 		handleSubmit,
-		reset,
 		formState: { errors },
+		reset,
 	} = useForm<FormInputType>({
 		resolver: yupResolver(validationSchema),
 	});
 
-	const handleSignInWithGoogle = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		e.preventDefault();
-		reset();
-		await signWithGoogle();
-	};
+	// const handleSignInWithGoogle = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	// 	e.preventDefault();
+	// 	// await signWithGoogle();
+	// 	// reset();
+	// 	console.log('sign');
+	// };
+	if (loading) return <p>Loading...</p>;
 
 	const onSubmit: SubmitHandler<FormInputType> = async (data) => {
 		try {
-			const { email, password } = data;
+			const { email } = data;
 
-			if (email && password) {
-				await signUpNewUser(email, password);
-				navigate('/login');
+			if (email) {
+				await sendMagicLink(email);
+				setIsDisable(true);
+				setEmailAddress(emailAddress);
+				setCheckEmailSend(true);
+				reset();
 			}
-		} catch (error: any) {
-			toast.error(error.message, {
+		} catch (error) {
+			const authError = error as AuthError;
+			toast.error(authError.message || 'Failed to sign up', {
 				position: 'top-right',
-				style: { backgroundColor: 'red', color: 'white', borderStyle: 'none' },
+				style: { backgroundColor: '#ef4444', color: '#ffffff', borderStyle: 'none' },
 			});
 		}
 	};
 
 	return (
-		<section className="flex flex-col items-center justify-center mx-auto">
-			<div className="text-center">
-				<Link to={'/'} className="flex gap-1 items-center">
-					<img className="w-[36px]" src={Popcornpix} alt="popcorn" title="popcornpix" />
-					<h3 className="font-bold">Popcornpix</h3>
+		<section className="w-full flex flex-col items-center justify-center mx-auto mt-16">
+			<div className="text-center mb-6">
+				<Link to={'/'} className="flex items-center justify-center">
+					<img className="w-[58px]" src={Popcornpix} alt="popcorn" title="popcornpix" />
 				</Link>
 			</div>
-			<Card className="border-none outline-none shadow-none bg-bg1 text-white">
-				<CardHeader className="text-2xl sm:w-[300px] md:w-[350px]">
-					<CardTitle>Sign up </CardTitle>
-				</CardHeader>
-				<CardContent className="mt-5">
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="grid gap-6">
-							<div className="flex flex-col gap-4">
-								<Button
-									variant="outline"
-									className="w-full p-5 flex items-center justify-center text-black"
-									onClick={handleSignInWithGoogle}
-								>
-									<FcGoogle />
-									<div>Sign in with Google</div>
-								</Button>
-							</div>
-							<div className="relative text-center text-sm ">
-								<span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with email</span>
-							</div>
-							<div className="grid gap-6">
-								<div className="grid gap-2">
-									<Label htmlFor="email">Email</Label>
-									<Input className="p-5 border-gray-500" {...register('email')} id="email" type="email" autoComplete="off" />
-									<span className="text-xs text-red-400">{errors.email?.message}</span>
-								</div>
-								<div className="grid gap-2">
-									<div className="flex items-center">
-										<Label htmlFor="password">Password</Label>
-									</div>
-									<Input
-										className="p-5 border-gray-500"
-										{...register('password')}
-										id="password"
-										type="password"
-										placeholder="6+ characters"
-										autoComplete="off"
-									/>
-									<span className="text-xs text-red-400">{errors.password?.message}</span>
-								</div>
-								<Button type="submit" variant="outline" className="w-full text-black">
-									Sign Up
-								</Button>
-							</div>
-							<div className="text-center text-sm text-gray-500">
-								Already have an account?{' '}
-								<Link to={'/login'} className="underline underline-offset-4 text-white">
-									Sign in
-								</Link>
-							</div>
+			<h3 className="mb-6 font-semibold text-[18px]">
+				{transitionToEmail && checkEmailSend ? 'Check your email' : transitionToEmail && !checkEmailSend ? "What's your email address?" : 'Create your account'}
+			</h3>
+			<form className={`flex flex-col gap-y-6 w-full ${checkEmailSend ? 'max-w-[500px]' : 'max-w-[288px]'}`} onSubmit={handleSubmit(onSubmit)}>
+				{!transitionToEmail && (
+					<>
+						<Button className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">Continue with google</Button>
+						<Button onClick={handleClickOnEmail} className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">
+							Continue with email
+						</Button>
+						<div className="text-center text-sm text-gray-500">
+							Already have an account?{' '}
+							<Link to={'/login'} className="underline underline-offset-4 text-white">
+								Log in
+							</Link>
 						</div>
-					</form>
-				</CardContent>
-			</Card>
+					</>
+				)}
+				{transitionToEmail && !checkEmailSend && (
+					<>
+						<Input
+							type="email"
+							{...register('email')}
+							value={emailAddress}
+							onChange={(e) => setEmailAddress(e.target.value)}
+							id="email"
+							className="w-full h-[48px] text-[14px] px-4 border-gray-600 hover:border-gray-300 transition delay-75"
+							placeholder="Enter your email address..."
+							autoComplete="off"
+							disabled={isDisabled}
+						/>
+						{errors?.email && <span className="text-xs text-red-400 font-semibold">{errors.email?.message}</span>}
+						<Button disabled={isDisabled} className={`w-full h-[48px] px-4 text-[#1E2025] ${isDisabled ? 'bg-gray-500' : 'bg-gray-200'} text-[14px] hover:bg-white transition delay-75`}>
+							Continue with email
+						</Button>
+						<p
+							onClick={() => {
+								setTransitionToEmail(false);
+								setCheckEmailSend(false);
+								setEmailAddress('');
+							}}
+							className="cursor-pointer underline text-center"
+						>
+							Back to login
+						</p>
+					</>
+				)}
+
+				{transitionToEmail && checkEmailSend && (
+					<div className="w-full text-gray-400 text-[13px] text-center">
+						<p className="mb-1">We've sent you a temporary login link.</p>
+						<p>
+							Please check your inbox at <span className="text-gray-100">{emailAddress}</span>
+						</p>
+					</div>
+				)}
+			</form>
 		</section>
 	);
 };
