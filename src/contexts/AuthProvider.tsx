@@ -7,6 +7,8 @@ type AuthContextType = {
 	loading: boolean;
 	signOut: () => Promise<void>;
 	sendMagicLink: (email: string) => Promise<void>;
+	signWithGoogleOAuth: () => Promise<void>;
+	isGoogleAuthProvider: boolean;
 };
 
 type AuthProviderType = {
@@ -18,15 +20,29 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AuthProvider = ({ children }: AuthProviderType) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
+	const [isGoogleAuthProvider, setIsGoogleAuthProvider] = useState(false);
 
 	useEffect(() => {
 		const getUser = async () => {
 			const { data, error } = await supabase.auth.getUser();
+			if (data.user) {
+				setUser(data.user);
+
+				const { data: identitiesResult } = await supabase.auth.getUserIdentities();
+				if (identitiesResult && identitiesResult.identities) {
+					identitiesResult.identities.some((identity) => {
+						if (identity.provider === 'google') {
+							console.log(identity.provider);
+							setIsGoogleAuthProvider(true);
+						}
+						setIsGoogleAuthProvider(false);
+					});
+				}
+			}
 
 			if (error) {
 				console.error('error getting users');
 			}
-			setUser(data.user ?? null);
 			setLoading(false);
 		};
 
@@ -60,7 +76,17 @@ const AuthProvider = ({ children }: AuthProviderType) => {
 		}
 	};
 
-	return <AuthContext.Provider value={{ user, loading, signOut, sendMagicLink }}>{children}</AuthContext.Provider>;
+	const signWithGoogleOAuth = async () => {
+		const { error } = await supabase.auth.signInWithOAuth({
+			provider: 'google',
+		});
+
+		if (error) {
+			console.error(error);
+		}
+	};
+
+	return <AuthContext.Provider value={{ user, loading, signOut, sendMagicLink, signWithGoogleOAuth, isGoogleAuthProvider }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

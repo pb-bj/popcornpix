@@ -19,7 +19,9 @@ const SearchDataProvider = ({ children }: SearchDataProps) => {
 		setSearchDetail('');
 	};
 
-	return <SearchDataContext.Provider value={{ searchDetail, setSearchDetail, resetSearchDetail }}>{children}</SearchDataContext.Provider>;
+	return (
+		<SearchDataContext.Provider value={{ searchDetail, setSearchDetail, resetSearchDetail }}>{children}</SearchDataContext.Provider>
+	);
 };
 
 export default SearchDataProvider;

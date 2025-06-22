@@ -6,9 +6,11 @@ import useSearchDetail from '../hooks/useSearchDetail';
 import SearchBox from './SearchBox';
 
 export default function Navbar() {
-	const { user } = useAuth();
+	const { user, isGoogleAuthProvider } = useAuth();
 	const { setSearchDetail } = useSearchDetail();
 
+	const userEmail = user?.email;
+	const userProfileInitial = userEmail ? userEmail.charAt(0).toUpperCase() : null;
 	return (
 		<>
 			<header className="fixed top-0 left-0 z-50 w-full overflow-hidden bg-bg1">
@@ -25,14 +27,24 @@ export default function Navbar() {
 					</div>
 					{/* User profile */}
 					<div className="cursor-pointer text-p7">
-						{/* <User className="w-8" /> */}
 						{user?.email === undefined ? (
 							<Link to={'/login'}>
 								<User />
 							</Link>
 						) : (
 							<Link to={'/user/profile'}>
-								<img src={`${user.user_metadata.avatar_url}`} className="rounded-full" width={40} />
+								{!isGoogleAuthProvider ? (
+									<img src={user.user_metadata.avatar_url} className="rounded-full w-10 h-10" />
+								) : (
+									<p className="border bg-white text-black rounded-full p-2 w-8 h-8 flex items-center justify-center font-semibold">{userProfileInitial}</p>
+								)}
+								{/* {isGoogleAuthProvider ? (
+										<img src={user.user_metadata.avatar_url} alt="" /> ) : (
+											// <>
+											<p className="border bg-white text-black rounded-full p-2 w-8 h-8 flex items-center justify-center font-semibold">{userProfileInitial}</p>
+											// </>
+										)
+							)} */}
 							</Link>
 						)}
 					</div>

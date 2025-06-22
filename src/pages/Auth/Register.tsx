@@ -16,9 +16,8 @@ const validationSchema = yup.object().shape({
 });
 
 const Register = () => {
-	const { sendMagicLink, loading } = useAuth();
+	const { sendMagicLink, signWithGoogleOAuth, loading } = useAuth();
 	const [transitionToEmail, setTransitionToEmail] = useState(false);
-	const [emailAddress, setEmailAddress] = useState('');
 	const [checkEmailSend, setCheckEmailSend] = useState(false);
 	const [isDisabled, setIsDisable] = useState(false);
 
@@ -28,17 +27,18 @@ const Register = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset,
+		getValues,
 	} = useForm<FormInputType>({
 		resolver: yupResolver(validationSchema),
 	});
 
-	// const handleSignInWithGoogle = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-	// 	e.preventDefault();
-	// 	// await signWithGoogle();
-	// 	// reset();
-	// 	console.log('sign');
-	// };
+	const handleSignInWithGoogle = async (e: React.FormEvent) => {
+		e.preventDefault();
+		await signWithGoogleOAuth();
+		// reset();
+		console.log('sign');
+	};
+
 	if (loading) return <p>Loading...</p>;
 
 	const onSubmit: SubmitHandler<FormInputType> = async (data) => {
@@ -48,9 +48,7 @@ const Register = () => {
 			if (email) {
 				await sendMagicLink(email);
 				setIsDisable(true);
-				setEmailAddress(emailAddress);
 				setCheckEmailSend(true);
-				reset();
 			}
 		} catch (error) {
 			const authError = error as AuthError;
@@ -74,7 +72,9 @@ const Register = () => {
 			<form className={`flex flex-col gap-y-6 w-full ${checkEmailSend ? 'max-w-[500px]' : 'max-w-[288px]'}`} onSubmit={handleSubmit(onSubmit)}>
 				{!transitionToEmail && (
 					<>
-						<Button className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">Continue with google</Button>
+						<Button onClick={handleSignInWithGoogle} className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">
+							Continue with google
+						</Button>
 						<Button onClick={handleClickOnEmail} className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">
 							Continue with email
 						</Button>
@@ -91,8 +91,6 @@ const Register = () => {
 						<Input
 							type="email"
 							{...register('email')}
-							value={emailAddress}
-							onChange={(e) => setEmailAddress(e.target.value)}
 							id="email"
 							className="w-full h-[48px] text-[14px] px-4 border-gray-600 hover:border-gray-300 transition delay-75"
 							placeholder="Enter your email address..."
@@ -107,7 +105,6 @@ const Register = () => {
 							onClick={() => {
 								setTransitionToEmail(false);
 								setCheckEmailSend(false);
-								setEmailAddress('');
 							}}
 							className="cursor-pointer underline text-center"
 						>
@@ -120,7 +117,7 @@ const Register = () => {
 					<div className="w-full text-gray-400 text-[13px] text-center">
 						<p className="mb-1">We've sent you a temporary login link.</p>
 						<p>
-							Please check your inbox at <span className="text-gray-100">{emailAddress}</span>
+							Please check your inbox at <span className="text-gray-100">{getValues('email')}</span>
 						</p>
 					</div>
 				)}
