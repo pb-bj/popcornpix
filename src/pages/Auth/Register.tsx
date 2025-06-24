@@ -4,6 +4,7 @@ import useAuth from '@/hooks/useAuth';
 import { FormInputType } from '@/types/form-input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthError } from '@supabase/supabase-js';
+import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -35,8 +36,6 @@ const Register = () => {
 	const handleSignInWithGoogle = async (e: React.FormEvent) => {
 		e.preventDefault();
 		await signWithGoogleOAuth();
-		// reset();
-		console.log('sign');
 	};
 
 	if (loading) return <p>Loading...</p>;
@@ -46,8 +45,9 @@ const Register = () => {
 			const { email } = data;
 
 			if (email) {
-				await sendMagicLink(email);
 				setIsDisable(true);
+				await sendMagicLink(email);
+				setIsDisable(false);
 				setCheckEmailSend(true);
 			}
 		} catch (error) {
@@ -99,6 +99,7 @@ const Register = () => {
 						/>
 						{errors?.email && <span className="text-xs text-red-400 font-semibold">{errors.email?.message}</span>}
 						<Button disabled={isDisabled} className={`w-full h-[48px] px-4 text-[#1E2025] ${isDisabled ? 'bg-gray-500' : 'bg-gray-200'} text-[14px] hover:bg-white transition delay-75`}>
+							{isDisabled && <Loader2Icon className="animate-spin" />}
 							Continue with email
 						</Button>
 						<p

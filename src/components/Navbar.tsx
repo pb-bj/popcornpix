@@ -10,6 +10,7 @@ export default function Navbar() {
 	const { setSearchDetail } = useSearchDetail();
 
 	const userEmail = user?.email;
+	console.log(userEmail);
 	const userProfileInitial = userEmail ? userEmail.charAt(0).toUpperCase() : null;
 	return (
 		<>
@@ -33,8 +34,8 @@ export default function Navbar() {
 							</Link>
 						) : (
 							<Link to={'/user/profile'}>
-								{!isGoogleAuthProvider ? (
-									<img src={user.user_metadata.avatar_url} className="rounded-full w-10 h-10" />
+								{isGoogleAuthProvider && user.user_metadata.avatar_url ? (
+									<img src={user?.user_metadata?.avatar_url} className="rounded-full w-10 h-10" />
 								) : (
 									<p className="border bg-white text-black rounded-full p-2 w-8 h-8 flex items-center justify-center font-semibold">{userProfileInitial}</p>
 								)}

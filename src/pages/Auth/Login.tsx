@@ -4,6 +4,7 @@ import useAuth from '@/hooks/useAuth';
 import { FormInputType } from '@/types/form-input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthError } from '@supabase/supabase-js';
+import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -34,8 +35,9 @@ const Login = () => {
 
 	const handleSignInWithGoogle = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setIsDisabled(true);
 		await signWithGoogleOAuth();
-		console.log('sign');
+		setIsDisabled(false);
 	};
 
 	const onSubmit: SubmitHandler<FormInputType> = async (data) => {
@@ -43,8 +45,9 @@ const Login = () => {
 			const { email } = data;
 
 			if (email) {
-				await sendMagicLink(email);
 				setIsDisabled(true);
+				await sendMagicLink(email);
+				setIsDisabled(false);
 				setCheckEmailSend(true);
 			}
 		} catch (error) {
@@ -70,7 +73,8 @@ const Login = () => {
 			<form className={`flex flex-col gap-y-6 w-full ${checkEmailSend ? 'max-w-[500px]' : 'max-w-[288px]'}`} onSubmit={handleSubmit(onSubmit)}>
 				{!transitionToEmail && (
 					<>
-						<Button onClick={handleSignInWithGoogle} className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">
+						<Button disabled={isDisabled} onClick={handleSignInWithGoogle} className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">
+							{isDisabled && <Loader2Icon className="animate-spin" />}
 							Continue with google
 						</Button>
 						<Button onClick={handleClickOnEmail} className="w-full h-[48px] px-4 text-[#1E2025] bg-gray-200 text-[14px] hover:bg-gray-50">
@@ -96,7 +100,8 @@ const Login = () => {
 							disabled={isDisabled}
 						/>
 						{errors.email && <span className="text-xs text-red-400">{errors.email?.message}</span>}
-						<Button disabled={isDisabled} className={`w-full h-[48px] px-4 text-[#1E2025] ${isDisabled ? 'bg-gray-500' : 'bg-gray-200'} text-[14px] hover:bg-white transition delay-75`}>
+						<Button disabled={isDisabled} className={`w-full h-[48px] px-4 text-[#1E2025] ${isDisabled ? 'bg-gray-300' : 'bg-gray-200'} text-[14px] hover:bg-white transition delay-75`}>
+							{isDisabled && <Loader2Icon className="animate-spin" />}
 							Continue with email
 						</Button>
 						<p
