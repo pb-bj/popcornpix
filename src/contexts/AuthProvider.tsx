@@ -32,7 +32,6 @@ const AuthProvider = ({ children }: AuthProviderType) => {
 				if (identitiesResult && identitiesResult.identities) {
 					identitiesResult.identities.some((identity) => {
 						if (identity.provider === 'google') {
-							console.log(identity.provider);
 							setIsGoogleAuthProvider(true);
 						}
 						setIsGoogleAuthProvider(false);
