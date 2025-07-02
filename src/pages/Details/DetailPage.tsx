@@ -1,8 +1,9 @@
 import useAuth from '@/hooks/useAuth';
-import { addToUserLibrary } from '@/services/supabase-library';
+import { addToUserLibrary, chechUserLibrary, deleteFromUserLibrary } from '@/services/supabase-library';
 import { Clapperboard, FolderClock, FolderX } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import { Button, InfoPanel } from '../../components';
 import { useCastCredits, useMediaDetails } from '../../hooks/useFetchMedia';
 import { EndpointProps } from '../../services/api';
@@ -19,17 +20,86 @@ type DetailsParams = {
 
 export default function DetailPage() {
 	const { type, id } = useParams<DetailsParams>();
-	const mediaId = parseInt(id);
-	const mediaType = type === 'movie' ? 'movie' : 'tv';
-	const { data, isLoading, error } = useMediaDetails(mediaType, mediaId);
-	const [addToLibrary, setAddToLibrary] = useState(true);
 	const { user } = useAuth();
-	const navigate = useNavigate();
 
-	// cast
-	const { data: castInfo } = useCastCredits(mediaType, mediaId);
+	const [isInLibrary, setIsInLibrary] = useState(false);
+	const [isLoadingLibrary, setIsLoadingLibrary] = useState(false);
+	const [isUpdatingLibrary, setIsUpdatingLibrary] = useState(false);
 
 	const [showTrailer, setShowTrailer] = useState(false);
+
+	const navigate = useNavigate();
+	const mediaId = parseInt(id ?? '');
+	const mediaType = type === 'movie' ? 'movie' : 'tv';
+	const { data, isLoading, error } = useMediaDetails(mediaType, mediaId);
+
+	const { data: castInfo } = useCastCredits(mediaType, mediaId);
+
+	// for checking the user-library based on medias
+	useEffect(() => {
+		const checkLibraryStatus = async () => {
+			if (!user?.id) {
+				setIsInLibrary(false);
+				setIsLoadingLibrary(false);
+				return;
+			}
+
+			setIsLoadingLibrary(true);
+			try {
+				const { exist } = await chechUserLibrary(user.id, mediaType, mediaId);
+				setIsInLibrary(exist);
+			} catch (error) {
+				console.error('Error checking library', error);
+				setIsInLibrary(false);
+			} finally {
+				setIsLoadingLibrary(false);
+			}
+		};
+
+		checkLibraryStatus();
+	}, [user?.id, mediaType, mediaId]);
+
+	const handleAddToLibrary = async () => {
+		if (!user || !user.id) {
+			navigate('/login');
+			return;
+		}
+
+		setIsUpdatingLibrary(true);
+		try {
+			const label = isMovieDetails(data) ? data.title : isSeriesDetails(data) ? data.name : 'Unknown Title';
+			const poster = data?.poster_path ?? '';
+
+			const { success, message } = await addToUserLibrary(user.id, mediaType, mediaId, label, poster);
+			if (success) {
+				setIsInLibrary(true);
+				toast.success(message);
+			}
+		} catch (error) {
+			console.error('Error adding to library', error);
+		} finally {
+			setIsUpdatingLibrary(false);
+		}
+	};
+
+	const handleRemoveFromLibrary = async () => {
+		if (!user?.id) {
+			return;
+		}
+
+		setIsUpdatingLibrary(true);
+		try {
+			const { success, message } = await deleteFromUserLibrary(user?.id, mediaType, mediaId);
+			if (success) {
+				setIsInLibrary(false);
+				toast.info(message);
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsUpdatingLibrary(false);
+		}
+	};
 
 	if (isLoading) return <p>Loading...</p>;
 	if (error) return <p>Error</p>;
@@ -37,23 +107,6 @@ export default function DetailPage() {
 	if (!data) return null;
 
 	const backgroundImage = `${import.meta.env.VITE_APP_TMDB_IMAGE_ORIGINAL_URL}/${data?.backdrop_path}`;
-
-	const handleAddToLibrary = async () => {
-		if (!user) {
-			navigate('/login');
-			return;
-		}
-		await addToUserLibrary(user.id, mediaType, mediaId);
-		console.log('added to database: ' + user.id, mediaType, mediaId);
-		setAddToLibrary(false);
-	};
-
-	const handleRemoveFromLibrary = async () => {
-		// await deleteFromUserLibrary();
-		alert('delte');
-		setAddToLibrary(true);
-	};
-
 	return (
 		<>
 			{showTrailer && <Trailer trailerId={mediaId} trailerType={mediaType} onClose={() => setShowTrailer(false)} />}
@@ -144,7 +197,6 @@ export default function DetailPage() {
 							</div>
 
 							{/* genres */}
-							{/* <InfoPanel label="Generic" items={data.genres} /> */}
 							<InfoPanel label="Genres" items={data.genres} isCast={false} />
 
 							{/* Cast */}
@@ -167,12 +219,15 @@ export default function DetailPage() {
 					) : null}
 
 					{/* buttons */}
-					<div className="flex items-center justify-center space-x-3 mt-8 mb-3 md:items-start md:justify-start md:mx-0">
-						{addToLibrary ? (
-							<Button label="Add to Library" onClick={handleAddToLibrary} Icon={FolderClock} />
+					<div className="w-full flex flex-col space-y-3 sm:space-y-0 sm:flex-row items-center justify-center space-x-3 mt-8 mb-3 md:items-start md:justify-start md:mx-0">
+						{isLoadingLibrary ? (
+							<div className="h-[40px] w-[160px] bg-p2/20 animate-pulse rounded-md" />
+						) : isInLibrary ? (
+							<Button label="Remove from watchlist" onClick={handleRemoveFromLibrary} Icon={FolderX} disabled={isUpdatingLibrary} />
 						) : (
-							<Button label="Remove from Library" onClick={handleRemoveFromLibrary} Icon={FolderX} />
+							<Button label="Add to watchlist" onClick={handleAddToLibrary} Icon={FolderClock} disabled={isUpdatingLibrary || !user?.id} />
 						)}
+
 						<Button label="Trailer" onClick={() => setShowTrailer(!showTrailer)} Icon={Clapperboard} />
 					</div>
 				</div>

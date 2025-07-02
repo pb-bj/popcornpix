@@ -25,11 +25,7 @@ export const getPopularData = async (type: EndpointProps, page: number): Promise
 };
 
 // TRENDING MOVIE | TV SERIES
-export const getTrendingData = async (
-	type: EndpointProps,
-	time_window: TimeWindowType,
-	page: number
-): Promise<TrendingResponse> => {
+export const getTrendingData = async (type: EndpointProps, time_window: TimeWindowType, page: number): Promise<TrendingResponse> => {
 	const { data } = await instance.get<TrendingResponse>(`/trending/${type}/${time_window}?page=${page}`);
 	return data;
 };
@@ -65,12 +61,7 @@ export const getCastCreditDetail = async (type: EndpointProps, id: number): Prom
 };
 
 // DISCOVER MOVIES | SERIES
-export const getDiscoverMedia = async (
-	type: string,
-	pages: number,
-	sort_by: string,
-	genres_no: string
-): Promise<DiscoveMediaResponse> => {
+export const getDiscoverMedia = async (type: string, pages: number, sort_by: string, genres_no: string): Promise<DiscoveMediaResponse> => {
 	let endpoint = '';
 
 	if (sort_by === 'popularity.desc') {
