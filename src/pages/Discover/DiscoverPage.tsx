@@ -57,12 +57,7 @@ const DiscoverPage = () => {
 		<section className="px-4 py-6 w-full">
 			<div className="sticky top-0 z-50 h-[45px] bg-bg1 w-full flex justify-between items-center sm:justify-normal sm:items-start gap-2">
 				{/* media-title-filter */}
-				<FilterSelect
-					value={currentMediaTitle}
-					onHandleMedia={handleMediaTitle}
-					placeholder={mediaTitle[0].title}
-					items={mediaTitle}
-				/>
+				<FilterSelect value={currentMediaTitle} onHandleMedia={handleMediaTitle} placeholder={mediaTitle[0].title} items={mediaTitle} />
 
 				{/* smaller device based filter-menu */}
 				<div className="sm:hidden">
@@ -82,22 +77,12 @@ const DiscoverPage = () => {
 
 				<div className="hidden sm:flex sm:gap-2">
 					{/* media-content-filter */}
-					<FilterSelect
-						value={currentMediaContent}
-						onHandleMedia={handleMediaContent}
-						placeholder={mediaContent[0].title}
-						items={mediaContent}
-					/>
+					<FilterSelect value={currentMediaContent} onHandleMedia={handleMediaContent} placeholder={mediaContent[0].title} items={mediaContent} />
 
 					{/* media-genre-filter */}
 					{displayContent === 'popularity.desc' && (
 						<div>
-							<FilterSelect
-								value={currentMediaGenres}
-								onHandleMedia={handleMediaGenre}
-								placeholder={displayGenre[0].title}
-								items={displayGenre}
-							/>
+							<FilterSelect value={currentMediaGenres} onHandleMedia={handleMediaGenre} placeholder={displayGenre[0].title} items={displayGenre} />
 						</div>
 					)}
 				</div>
