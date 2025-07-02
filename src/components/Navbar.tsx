@@ -10,7 +10,6 @@ export default function Navbar() {
 	const { setSearchDetail } = useSearchDetail();
 
 	const userEmail = user?.email;
-	console.log(userEmail);
 	const userProfileInitial = userEmail ? userEmail.charAt(0).toUpperCase() : null;
 	return (
 		<>

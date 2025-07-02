@@ -1,9 +1,25 @@
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from './components';
 import { menus } from './constants/menu';
+import useAuth from './hooks/useAuth';
+import { getUserLibraryLists } from './services/supabase-library';
+import { LibraryType } from './types/Library';
 
 export default function App() {
+	const { user } = useAuth();
 	const { pathname } = useLocation();
+	const [watchlists, setWatchlists] = useState<LibraryType[]>([]);
+
+	useEffect(() => {
+		const fetchMedia = async () => {
+			if (!user?.id) return;
+
+			const response = await getUserLibraryLists(user?.id);
+			setWatchlists(response);
+		};
+		fetchMedia();
+	}, [user?.id, watchlists]);
 
 	const hiddenItemsDetailPage = pathname.startsWith('/detail');
 	const hiddenItemsLoginPage = pathname.startsWith('/login');
@@ -25,8 +41,19 @@ export default function App() {
 											to={menu.route}
 											className={`sm:flex sm:flex-col sm:items-center sm:space-y-1 sm:w-full sm:h-full sm:text-center text-p7 cursor-pointer ${isActive ? 'text-white' : 'text-p7'}`}
 										>
-											<menu.icon />
-											<p className="text-[11px] font-medium">{menu.title}</p>
+											{/* <menu.icon className=" text-white text-[10px] w-5 h-5 flex items-center justify-center" /> */}
+											<div className="relative">
+												<menu.icon className="w-5 h-5" />
+												{menu.id === 'watchlist' && watchlists && watchlists.length > 0 && (
+													<>
+														<span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full shadow-md">
+															{watchlists.length}
+														</span>
+													</>
+												)}
+											</div>
+
+											<p className={' text-[11px] font-medium '}>{menu.title}</p>
 										</Link>
 									</li>
 								);
@@ -51,7 +78,17 @@ export default function App() {
 							return (
 								<li key={menu.id}>
 									<Link to={menu.route} className={`flex flex-col items-center text-center px-3.5 py-2 cursor-pointer ${isActive ? 'text-white' : 'text-p7'}`}>
-										<menu.icon />
+										{/* <menu.icon /> */}
+										<div className="relative">
+											<menu.icon className="w-5 h-5" />
+											{menu.id === 'watchlist' && watchlists && watchlists.length > 0 && (
+												<>
+													<span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full shadow-md">
+														{watchlists.length}
+													</span>
+												</>
+											)}
+										</div>
 										<span className="text-[11px] ">{menu.title}</span>
 									</Link>
 								</li>
