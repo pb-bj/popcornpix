@@ -3,39 +3,71 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { mediaContent, mediaMovieGenre, mediaSeriesGenre, mediaTitle } from '@/constants/FilterMenu';
 import { useDiscoverMedia } from '@/hooks/useFetchMedia';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import DiscoverContent from './DiscoverContent';
 
 const DiscoverPage = () => {
-	const [currentMediaTitle, setCurrentMediaTitle] = useState(mediaTitle[0].title);
-	const [currentMediaContent, setCurrentMediaContent] = useState(mediaContent[0].title);
-	const [currentMediaGenres, setCurrentMediaGenres] = useState(mediaMovieGenre[0].title);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const initialTitle = searchParams.get('type') || mediaTitle[0].title;
+	const initialContent = searchParams.get('content') || mediaContent[0].title;
+	const initialGenre = initialTitle.toLocaleLowerCase() === 'movie' ? searchParams.get('genre') || mediaMovieGenre[0].title : searchParams.get('genre') || mediaSeriesGenre[0].title;
+
+	const initialPage = Number(searchParams.get('page')) || 1;
+
+	const [currentMediaTitle, setCurrentMediaTitle] = useState(initialTitle);
+	const [currentMediaContent, setCurrentMediaContent] = useState(initialContent);
+	const [currentMediaGenres, setCurrentMediaGenres] = useState(initialGenre);
+	const [currentPage, setCurrentPage] = useState(initialPage);
 
 	useEffect(() => {
 		// for dynamically changing the state value depending on media title
-		const initialGenre = currentMediaTitle.toLowerCase() === 'movie' ? mediaMovieGenre[0].title : mediaSeriesGenre[0].title;
-		setCurrentMediaGenres(initialGenre);
+		const currentGenre = searchParams.get('genre');
+		const defaultGenre = currentMediaTitle.toLowerCase() === 'movie' ? mediaMovieGenre[0].title : mediaSeriesGenre[0].title;
+
+		if (!currentGenre) {
+			setCurrentMediaGenres(defaultGenre);
+			searchParams.set('genre', defaultGenre);
+		} else {
+			setCurrentMediaGenres(defaultGenre);
+		}
+
+		searchParams.set('type', currentMediaTitle);
+		setSearchParams(searchParams);
 	}, [currentMediaTitle]);
 
 	useEffect(() => {
 		setCurrentPage(1);
+		searchParams.set('page', '1');
+		setSearchParams(searchParams);
 	}, [currentMediaTitle, currentMediaContent, currentMediaGenres]);
 
 	const handleMediaTitle = (value: string) => {
 		setCurrentMediaTitle(value);
+		searchParams.set('type', value);
+		setSearchParams(searchParams);
 	};
 
 	const handleMediaContent = (value: string) => {
 		setCurrentMediaContent(value);
+		searchParams.set('content', value);
+		setSearchParams(searchParams);
 	};
 
 	const handleMediaGenre = (value: string) => {
 		setCurrentMediaGenres(value);
+		searchParams.set('genre', value);
+		setSearchParams(searchParams);
+	};
+
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page);
+		searchParams.set('page', String(page));
+		setSearchParams(searchParams);
 	};
 
 	const displayGenre = currentMediaTitle?.toLowerCase() === 'movie' ? mediaMovieGenre : mediaSeriesGenre;
 	const displayContent = currentMediaContent?.toLowerCase() === 'popular' ? 'popularity.desc' : 'top_rated';
-
 	const genre_no = displayGenre.find((genre) => genre.title === currentMediaGenres)?.id || '0';
 
 	const { data, isLoading } = useDiscoverMedia(currentMediaTitle.toLowerCase(), currentPage, displayContent, genre_no);
@@ -103,7 +135,7 @@ const DiscoverPage = () => {
 			</div>
 			{/* pagination */}
 			<div className="flex justify-center items-center mx-auto relative">
-				<PaginationComponent page={currentPage} totalPages={data?.total_pages} setCurrentPage={setCurrentPage} />
+				<PaginationComponent page={currentPage} totalPages={data?.total_pages} setCurrentPage={(page) => handlePageChange(page)} />
 			</div>
 		</section>
 	);

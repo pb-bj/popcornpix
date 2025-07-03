@@ -3,7 +3,7 @@ import { ChevronsLeft, ChevronsRight } from 'lucide-react';
 type PageComponentProps = {
 	page: number;
 	totalPages: number | undefined;
-	setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+	setCurrentPage: (page: number) => void;
 };
 
 const PaginationComponent = ({ page, totalPages, setCurrentPage }: PageComponentProps) => {
@@ -23,11 +23,7 @@ const PaginationComponent = ({ page, totalPages, setCurrentPage }: PageComponent
 			<div className="text-sm">
 				{page} / {totalPages}
 			</div>
-			<button
-				onClick={handleNextPageChange}
-				disabled={page === totalPages}
-				className="rounded bg-bg2 px-1.5 py-1 disabled:opacity-50"
-			>
+			<button onClick={handleNextPageChange} disabled={page === totalPages} className="rounded bg-bg2 px-1.5 py-1 disabled:opacity-50">
 				<ChevronsRight width={15} />
 			</button>
 		</div>
