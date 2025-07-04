@@ -34,17 +34,10 @@ export default function Navbar() {
 						) : (
 							<Link to={'/user/profile'}>
 								{isGoogleAuthProvider && user.user_metadata.avatar_url ? (
-									<img src={user?.user_metadata?.avatar_url} className="rounded-full w-10 h-10" />
+									<img src={user?.user_metadata?.avatar_url} className="rounded-full w-7 h-7 sm:w-10 sm:h-10" />
 								) : (
 									<p className="border bg-white text-black rounded-full p-2 w-8 h-8 flex items-center justify-center font-semibold">{userProfileInitial}</p>
 								)}
-								{/* {isGoogleAuthProvider ? (
-										<img src={user.user_metadata.avatar_url} alt="" /> ) : (
-											// <>
-											<p className="border bg-white text-black rounded-full p-2 w-8 h-8 flex items-center justify-center font-semibold">{userProfileInitial}</p>
-											// </>
-										)
-							)} */}
 							</Link>
 						)}
 					</div>

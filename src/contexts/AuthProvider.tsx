@@ -34,7 +34,6 @@ const AuthProvider = ({ children }: AuthProviderType) => {
 						if (identity.provider === 'google') {
 							setIsGoogleAuthProvider(true);
 						}
-						setIsGoogleAuthProvider(false);
 					});
 				}
 			}
