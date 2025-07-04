@@ -76,6 +76,7 @@ export default function DetailPage() {
 			}
 		} catch (error) {
 			console.error('Error adding to library', error);
+			toast.error('An unexpected error occurred while adding to library.');
 		} finally {
 			setIsUpdatingLibrary(false);
 		}
@@ -91,10 +92,11 @@ export default function DetailPage() {
 			const { success, message } = await deleteFromUserLibrary(user?.id, mediaType, mediaId);
 			if (success) {
 				setIsInLibrary(false);
-				toast.info(message);
+				toast.error(message);
 			}
 		} catch (error) {
 			console.error(error);
+			toast.error('An unexpected error occurred while adding to library.');
 		} finally {
 			setIsUpdatingLibrary(false);
 		}
@@ -222,7 +224,7 @@ export default function DetailPage() {
 						) : isInLibrary ? (
 							<Button label="Remove from watchlist" onClick={handleRemoveFromLibrary} Icon={FolderX} disabled={isUpdatingLibrary} />
 						) : (
-							<Button label="Add to watchlist" onClick={handleAddToLibrary} Icon={FolderClock} disabled={isUpdatingLibrary || !user?.id} />
+							<Button label="Add to watchlist" onClick={handleAddToLibrary} Icon={FolderClock} disabled={isUpdatingLibrary} />
 						)}
 
 						<Button label="Trailer" onClick={() => setShowTrailer(!showTrailer)} Icon={Clapperboard} />

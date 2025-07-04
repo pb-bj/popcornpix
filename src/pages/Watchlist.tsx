@@ -1,12 +1,14 @@
+import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useAuth';
 import { getUserLibraryLists } from '@/services/supabase-library';
 import { LibraryType } from '@/types/Library';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import loginImg from '../assets/login.png';
 
 export default function Watchlist() {
 	const { user } = useAuth();
+	const navigate = useNavigate();
 	const [watchlists, setWatchlists] = useState<LibraryType[]>([]);
 
 	useEffect(() => {
@@ -22,9 +24,12 @@ export default function Watchlist() {
 	return (
 		<section className="px-4 py-6 ">
 			{!user?.id && (
-				<div className="w-full mt-[50px] flex flex-col gap-y-6 items-center justify-center mx-auto">
+				<div className="w-full mt-[50px] flex flex-col gap-y-6 items-center justify-center text-center mx-auto">
 					<img src={loginImg} width={120} />
-					<h3>Watchlist is only available for logged users</h3>
+					<p className="text-sm text-gray-300">Watchlist is only available for logged users</p>
+					<Button onClick={() => navigate('/login')} className="backdrop-blur-md bg-white/5 hover:bg-transparent/20 text-sm rounded-full ">
+						Sign in
+					</Button>
 				</div>
 			)}
 			{user?.id && watchlists && <h1 className="text-2xl font-semibold mb-6">Your Watchlist</h1>}

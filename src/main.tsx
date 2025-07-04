@@ -65,7 +65,7 @@ createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>
-				<Toaster position="top-right" expand={false} />
+				<Toaster position="top-right" expand={false} richColors />
 				<MediaProvider>
 					<SearchDataProvider>
 						<RouterProvider router={router} />

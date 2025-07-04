@@ -14,7 +14,7 @@ const FilterSelect = ({ value, onHandleMedia, placeholder, items }: FilterSelect
 				<SelectTrigger className="w-[180px] border-none rounded-full bg-bg4 text-xs">
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
-				<SelectContent className="shadow-xl cursor-pointer border-none">
+				<SelectContent side="bottom" align="start" avoidCollisions={false} position="item-aligned" className="shadow-xl cursor-pointer border-none">
 					{items.map((item) => (
 						<SelectItem key={item.id} value={item.title} className="cursor-pointer text-xs">
 							{item.title}
