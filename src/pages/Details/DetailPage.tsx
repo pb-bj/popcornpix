@@ -25,7 +25,6 @@ export default function DetailPage() {
 	const [isInLibrary, setIsInLibrary] = useState(false);
 	const [isLoadingLibrary, setIsLoadingLibrary] = useState(false);
 	const [isUpdatingLibrary, setIsUpdatingLibrary] = useState(false);
-
 	const [showTrailer, setShowTrailer] = useState(false);
 
 	const navigate = useNavigate();
@@ -109,17 +108,17 @@ export default function DetailPage() {
 	const backgroundImage = `${import.meta.env.VITE_APP_TMDB_IMAGE_ORIGINAL_URL}/${data?.backdrop_path}`;
 	return (
 		<>
-			{showTrailer && <Trailer trailerId={mediaId} trailerType={mediaType} onClose={() => setShowTrailer(false)} />}
 			<div
 				className="absolute top-0 left-0 w-full h-screen bg-cover bg-center z-0 opacity-45"
 				style={{ backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.15)), url(${backgroundImage})` }}
 			></div>
 			{/* Menu */}
 			<DetailMenu />
+			{showTrailer && <Trailer trailerId={mediaId} trailerType={mediaType} onClose={() => setShowTrailer(false)} />}
 
 			{/* Detail Content */}
-			<div className="relative flex flex-col md:flex-row items-start justify-between px-2 md:pl-7 md:px-0 py-3 gap-4 w-full">
-				<div className="w-full px-3 md:w-8/12 md:pl-3 md:px-0 ">
+			<div className="w-full relative flex flex-col md:flex-row items-start justify-between gap-4">
+				<div className="md:w-11/12  ">
 					{isMovieDetails(data) ? (
 						<>
 							<div className="flex space-x-2">
@@ -140,11 +139,9 @@ export default function DetailPage() {
 							<p className="pt-4 py-2.5 text-sm font-light text-gray-300 italic">{data?.tagline}</p>
 
 							{/* genre */}
-							{/* <GenreList genres={data?.genres} /> */}
 							<InfoPanel label="Genres" items={data.genres} isCast={false} />
 
 							{/* cast */}
-							{/* used of nullish colescing operator to provide an empty array for fallback */}
 							<InfoPanel label="Cast" items={castInfo?.cast} isCast={true} />
 
 							<div>
@@ -219,7 +216,7 @@ export default function DetailPage() {
 					) : null}
 
 					{/* buttons */}
-					<div className="w-full flex flex-col space-y-3 sm:space-y-0 sm:flex-row items-center justify-center space-x-3 mt-8 mb-3 md:items-start md:justify-start md:mx-0">
+					<div className="w-full flex flex-col  space-y-3 lg:space-y-0 lg:flex-row items-center justify-center space-x-3 mt-8 mb-3 md:items-start md:justify-start md:mx-0">
 						{isLoadingLibrary ? (
 							<div className="h-[40px] w-[160px] bg-p2/20 animate-pulse rounded-md" />
 						) : isInLibrary ? (

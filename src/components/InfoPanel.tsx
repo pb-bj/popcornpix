@@ -12,7 +12,7 @@ const InfoPanel = <T extends Genre | Cast>({ label, items, isCast }: InfoPanelPr
 
 	return (
 		<>
-			<div className="uppercase text-xs mt-5 text-p4 font-semibold">{label}</div>
+			<div className="uppercase text-xs mt-2 text-p4 font-semibold">{label}</div>
 			<ul className="flex flex-wrap items-baseline space-x-2 text-xs py-2.5">
 				{renderData?.map((item) => {
 					return (
