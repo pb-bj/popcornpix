@@ -26,10 +26,10 @@ PopcornPix is a movie and series discovery app built with React, Supabase, and t
   git clone https://github.com/your-username/popcornpix.git
   cd popcornpix
 
-2. Instal dependencies
-   npm i
+2. Install dependencies:
+   npm install
   
-3. Set environment variables
+3. Set environment variables:
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_anon_key
    VITE_TMDB_API_KEY=your_tmdb_api_key
