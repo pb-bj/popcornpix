@@ -18,7 +18,6 @@ PopcornPix is a movie and series discovery app built with React, Supabase, and t
 - TailwindCSS + ShadCN
 - Luicde-Icons for icons
 - Sooner for toast notifications
-- React query 
 
 ## 📦 Getting Started
 
