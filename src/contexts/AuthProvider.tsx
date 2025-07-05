@@ -65,7 +65,7 @@ const AuthProvider = ({ children }: AuthProviderType) => {
 		const { error } = await supabase.auth.signInWithOtp({
 			email,
 			options: {
-				emailRedirectTo: `http://localhost:5173`,
+				emailRedirectTo: `https://popcornpix.vercel.app/`,
 			},
 		});
 
